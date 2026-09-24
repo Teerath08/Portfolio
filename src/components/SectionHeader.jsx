@@ -23,6 +23,7 @@ export default function SectionHeader({
         <div
           ref={containerRef}
           onClick={handleHeadingClick}
+          data-section-heading="true"
           className="floating-3d-heading group select-none cursor-default"
         >
           {/* Cybernetic 3D Red Badge */}
