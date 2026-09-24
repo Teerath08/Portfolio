@@ -1,7 +1,7 @@
 import React from "react";
 import { personalInfo } from "../data";
-import { GitBranch, Link2, Mail, Zap, ArrowUp } from "lucide-react";
-import { triggerThunderNav } from "../utils/thunder";
+import { GitBranch, Link2, Mail, ArrowUp } from "lucide-react";
+import { navigateToSection } from "../utils/thunder";
 
 const quickLinks = [
   { label: "Home", href: "#home" },
@@ -14,12 +14,13 @@ const quickLinks = [
 ];
 
 export default function Footer() {
-  const scrollToTop = (e) => {
-    triggerThunderNav("home", e);
+  const scrollToTop = () => {
+    navigateToSection("home");
   };
 
   const navClick = (href, e) => {
-    triggerThunderNav(href.slice(1), e);
+    if (e) e.preventDefault();
+    navigateToSection(href.slice(1));
   };
 
   return (
@@ -69,11 +70,10 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Quick links with Thunder */}
+          {/* Quick links */}
           <div>
-            <h4 className="text-xs font-mono font-bold text-red-400 mb-4 uppercase tracking-widest flex items-center gap-1.5">
-              <Zap size={13} className="text-yellow-400 fill-yellow-400" />
-              <span>Thunder Navigation</span>
+            <h4 className="text-xs font-mono font-bold text-red-400 mb-4 uppercase tracking-widest">
+              Quick Links
             </h4>
             <div className="grid grid-cols-2 gap-2">
               {quickLinks.map((link) => (
@@ -141,7 +141,7 @@ export default function Footer() {
             onClick={scrollToTop}
             className="flex items-center gap-2 text-xs font-mono text-zinc-400 hover:text-red-400 transition-colors cursor-pointer group"
           >
-            <span>Top of System</span>
+            <span>Back to top</span>
             <ArrowUp size={14} className="group-hover:-translate-y-1 transition-transform" />
           </button>
         </div>

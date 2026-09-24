@@ -1,10 +1,10 @@
-import { ArrowDown, GitBranch, Link2, Mail, Sparkles, Code2, Cpu, Zap, Bot } from "lucide-react";
+import { ArrowDown, GitBranch, Link2, Mail, Sparkles, Code2, Bot } from "lucide-react";
 import { personalInfo } from "../data";
-import { triggerThunderNav } from "../utils/thunder";
+import { navigateToSection } from "../utils/thunder";
 
 export default function Hero({ profileImage, onOpenPhotoModal }) {
-  const handleThunderScroll = (id, e) => {
-    triggerThunderNav(id, e);
+  const handleScrollTo = (id) => {
+    navigateToSection(id);
   };
 
   return (
@@ -52,7 +52,7 @@ export default function Hero({ profileImage, onOpenPhotoModal }) {
 
         {/* Status Badge */}
         <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-red-950/50 border border-red-700/50 text-red-400 text-xs sm:text-sm font-mono font-semibold mb-8 animate-fade-in shadow-lg shadow-red-950/50">
-          <Zap size={14} className="text-yellow-400 animate-pulse fill-yellow-400" />
+          <span className="w-2 h-2 rounded-full bg-red-500 animate-ping" />
           <span>ECE Student · Robotics & Microprocessors</span>
         </div>
 
@@ -86,24 +86,24 @@ export default function Hero({ profileImage, onOpenPhotoModal }) {
           and intelligent physical automation systems.
         </p>
 
-        {/* Thunder Interactive CTA Buttons */}
+        {/* Quick CTA Buttons */}
         <div className="flex flex-wrap items-center justify-center gap-4 mb-14">
           <button
-            onClick={(e) => handleThunderScroll("skills", e)}
+            onClick={() => handleScrollTo("skills")}
             className="btn-primary text-base px-8 py-3.5"
           >
             <Bot size={18} />
             Explore My Skills
           </button>
           <button
-            onClick={(e) => handleThunderScroll("projects", e)}
+            onClick={() => handleScrollTo("projects")}
             className="btn-outline text-base px-8 py-3.5"
           >
             <Code2 size={18} />
             View Projects
           </button>
           <button
-            onClick={(e) => handleThunderScroll("contact", e)}
+            onClick={() => handleScrollTo("contact")}
             className="btn-outline text-base px-8 py-3.5"
           >
             <Mail size={18} />
@@ -140,32 +140,30 @@ export default function Hero({ profileImage, onOpenPhotoModal }) {
           </a>
         </div>
 
-        {/* 3D Floating Tech Chips with Thunder Navigation */}
+        {/* 3D Floating Tech Chips */}
         <div className="hidden md:flex items-center justify-center gap-3 flex-wrap mb-10">
           {[
-            { label: "⚡ Robotics", target: "skills" },
-            { label: "💽 Microprocessor", target: "skills" },
-            { label: "⚙️ 8085 / 8086 ALP", target: "skills" },
-            { label: "🤖 Autonomous Navigation", target: "skills" },
-            { label: "⚡ Sensor Interfacing", target: "skills" },
+            { label: "Robotics", target: "skills" },
+            { label: "Microprocessors", target: "skills" },
+            { label: "8085 / 8086 ALP", target: "skills" },
+            { label: "Autonomous Navigation", target: "skills" },
+            { label: "Sensor Interfacing", target: "skills" },
           ].map((item) => (
             <button
               key={item.label}
-              onClick={(e) => handleThunderScroll(item.target, e)}
+              onClick={() => handleScrollTo(item.target)}
               className="px-3.5 py-1.5 text-xs font-mono rounded-full bg-zinc-950/80 border border-red-950 text-zinc-300 hover:border-red-500/70 hover:text-red-400 hover:scale-105 transition-all cursor-pointer shadow-md"
-              title="Click to strike thunder"
             >
               {item.label}
             </button>
           ))}
         </div>
 
-        {/* Scroll indicator with Thunder Trigger */}
+        {/* Scroll indicator */}
         <button
-          onClick={(e) => handleThunderScroll("about", e)}
+          onClick={() => handleScrollTo("about")}
           className="animate-bounce text-zinc-600 hover:text-red-400 transition-colors duration-200 mx-auto block cursor-pointer"
           aria-label="Scroll down to About"
-          title="Strike thunder to About"
         >
           <ArrowDown size={24} />
         </button>

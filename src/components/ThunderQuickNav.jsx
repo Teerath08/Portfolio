@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Zap, Cpu, User, GraduationCap, Briefcase, Mail, Home } from "lucide-react";
-import { triggerThunderNav } from "../utils/thunder";
+import { Cpu, User, GraduationCap, Briefcase, Mail, Home, Star } from "lucide-react";
+import { navigateToSection } from "../utils/thunder";
 
 const navItems = [
   { id: "home", label: "Home", icon: <Home size={13} /> },
@@ -11,9 +11,8 @@ const navItems = [
   { id: "contact", label: "Contact", icon: <Mail size={13} /> },
 ];
 
-export default function ThunderQuickNav() {
+export default function QuickNav() {
   const [active, setActive] = useState("home");
-  const [minimized, setMinimized] = useState(false);
 
   useEffect(() => {
     let ticking = false;
@@ -37,19 +36,13 @@ export default function ThunderQuickNav() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const handleClick = (id, e) => {
-    triggerThunderNav(id, e);
+  const handleClick = (id) => {
+    navigateToSection(id);
   };
 
   return (
     <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-40 max-w-[95vw]">
-      <div className="flex items-center gap-1.5 p-1.5 rounded-full bg-black/90 border border-red-900/60 shadow-2xl shadow-red-950/80 backdrop-blur-xl transition-all duration-300 hover:border-red-600/70 hover:shadow-red-600/25">
-        {/* Thunder Indicator */}
-        <div className="flex items-center gap-1 px-2.5 py-1 text-red-500 font-mono text-[11px] font-bold border-r border-red-950/80 mr-1 select-none">
-          <Zap size={13} className="text-yellow-400 animate-pulse fill-yellow-400" />
-          <span className="hidden sm:inline tracking-wider">THUNDER NAV</span>
-        </div>
-
+      <div className="flex items-center gap-1 p-1.5 rounded-full bg-black/90 border border-red-900/60 shadow-2xl shadow-red-950/80 backdrop-blur-xl transition-all duration-300 hover:border-red-600/70">
         {/* Quick Links */}
         <div className="flex items-center gap-1">
           {navItems.map((item) => {
@@ -57,13 +50,13 @@ export default function ThunderQuickNav() {
             return (
               <button
                 key={item.id}
-                onClick={(e) => handleClick(item.id, e)}
+                onClick={() => handleClick(item.id)}
                 className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-200 cursor-pointer ${
                   isActive
                     ? "bg-gradient-to-r from-red-600 to-rose-600 text-white shadow-lg shadow-red-600/40 font-semibold scale-105"
-                    : "text-zinc-400 hover:text-white hover:bg-red-950/40 hover:border-red-800"
+                    : "text-zinc-400 hover:text-white hover:bg-red-950/40"
                 }`}
-                title={`Strike thunder & navigate to ${item.label}`}
+                title={`Go to ${item.label}`}
               >
                 {item.icon}
                 <span className="hidden md:inline">{item.label}</span>

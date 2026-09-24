@@ -1,8 +1,7 @@
 import React from "react";
 import { personalInfo } from "../data";
 import SectionHeader from "./SectionHeader";
-import { Cpu, Bot, Zap, CircuitBoard, Camera } from "lucide-react";
-import { triggerThunderNav } from "../utils/thunder";
+import { Cpu, Bot, Sparkles, CircuitBoard, Camera } from "lucide-react";
 
 const passions = [
   {
@@ -24,7 +23,7 @@ const passions = [
     color: "from-red-500 to-amber-600",
   },
   {
-    icon: <Zap size={22} />,
+    icon: <Sparkles size={22} />,
     title: "Physical Computing & AI",
     desc: "Bridging intelligent algorithms with physical hardware to solve real-world automation challenges.",
     color: "from-red-700 to-rose-950",

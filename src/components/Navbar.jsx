@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
-import { Menu, X, Zap } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { personalInfo } from "../data";
-import { triggerThunderNav } from "../utils/thunder";
+import { navigateToSection } from "../utils/thunder";
 
 const navLinks = [
   { href: "#home", label: "Home" },
@@ -45,8 +45,9 @@ export default function Navbar({ profileImage }) {
   }, []);
 
   const handleNavClick = (href, e) => {
+    if (e) e.preventDefault();
     setMobileOpen(false);
-    triggerThunderNav(href.slice(1), e);
+    navigateToSection(href.slice(1));
   };
 
   return (
@@ -61,10 +62,7 @@ export default function Navbar({ profileImage }) {
         {/* Logo */}
         <a
           href="#home"
-          onClick={(e) => {
-            e.preventDefault();
-            handleNavClick("#home", e);
-          }}
+          onClick={(e) => handleNavClick("#home", e)}
           className="flex items-center gap-2 group cursor-pointer"
         >
           <div className="w-9 h-9 rounded-lg overflow-hidden bg-gradient-to-br from-red-600 via-rose-600 to-red-800 flex items-center justify-center font-bold text-white text-sm shadow-lg shadow-red-600/30 group-hover:scale-105 transition-transform border border-red-400/40">
@@ -86,15 +84,12 @@ export default function Navbar({ profileImage }) {
             <button
               key={link.href}
               onClick={(e) => handleNavClick(link.href, e)}
-              className={`px-3 py-1.5 rounded-lg text-xs font-semibold uppercase tracking-wider transition-all duration-200 cursor-pointer flex items-center gap-1 ${
+              className={`px-3 py-1.5 rounded-lg text-xs font-semibold uppercase tracking-wider transition-all duration-200 cursor-pointer ${
                 activeSection === link.href.slice(1)
                   ? "text-red-400 bg-red-950/50 border border-red-800/50 shadow-sm shadow-red-900/30"
                   : "text-zinc-400 hover:text-white hover:bg-zinc-900/70 hover:border-red-950 border border-transparent"
               }`}
             >
-              {activeSection === link.href.slice(1) && (
-                <Zap size={11} className="text-yellow-400 fill-yellow-400" />
-              )}
               {link.label}
             </button>
           ))}
@@ -102,7 +97,7 @@ export default function Navbar({ profileImage }) {
 
         {/* Mobile menu button */}
         <button
-          className="md:hidden p-2 rounded-lg text-zinc-400 hover:text-white hover:bg-zinc-900 transition-colors"
+          className="md:hidden p-2 rounded-lg text-zinc-400 hover:text-white hover:bg-zinc-900 transition-colors cursor-pointer"
           onClick={() => setMobileOpen(!mobileOpen)}
           aria-label="Toggle menu"
         >
@@ -118,14 +113,13 @@ export default function Navbar({ profileImage }) {
               <button
                 key={link.href}
                 onClick={(e) => handleNavClick(link.href, e)}
-                className={`text-left px-4 py-3 rounded-xl text-sm font-semibold transition-colors flex items-center justify-between ${
+                className={`text-left px-4 py-3 rounded-xl text-sm font-semibold transition-colors ${
                   activeSection === link.href.slice(1)
                     ? "bg-red-950/60 text-red-400 border border-red-800/50"
                     : "text-zinc-300 hover:bg-zinc-900 hover:text-white"
                 }`}
               >
-                <span>{link.label}</span>
-                <Zap size={14} className="text-red-500" />
+                {link.label}
               </button>
             ))}
           </div>

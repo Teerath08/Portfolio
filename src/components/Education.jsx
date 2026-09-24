@@ -1,15 +1,15 @@
 import React from "react";
 import { education } from "../data";
 import SectionHeader from "./SectionHeader";
-import { GraduationCap, MapPin, Calendar, BookOpen, Cpu, Bot } from "lucide-react";
-import { triggerThunderNav } from "../utils/thunder";
+import { GraduationCap, MapPin, Calendar, BookOpen } from "lucide-react";
+import { navigateToSection } from "../utils/thunder";
 
 export default function Education() {
   const edu = education[0];
 
-  const handleAreaClick = (area, e) => {
+  const handleAreaClick = (area) => {
     if (area.toLowerCase().includes("robotic") || area.toLowerCase().includes("microprocessor")) {
-      triggerThunderNav("skills", e);
+      navigateToSection("skills");
     }
   };
 

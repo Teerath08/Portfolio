@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { personalInfo } from "../data";
 import SectionHeader from "./SectionHeader";
-import { Mail, Link2, GitBranch, MapPin, Copy, Check, Send, Zap } from "lucide-react";
+import { Mail, Link2, GitBranch, MapPin, Copy, Check, Send, MessageSquare } from "lucide-react";
 
 export default function Contact() {
   const [copied, setCopied] = useState(false);
@@ -89,7 +89,7 @@ export default function Contact() {
           <div className="flex flex-col gap-5">
             <h3 className="text-xl font-black text-white flex items-center gap-2">
               <span>Let's collaborate</span>
-              <Zap size={18} className="text-red-500 fill-red-500" />
+              <MessageSquare size={18} className="text-red-500" />
             </h3>
             <p className="text-zinc-400 text-sm leading-relaxed -mt-2">
               Whether you have a hardware design discussion, a robotics project, or want to connect on embedded systems — my inbox is open!

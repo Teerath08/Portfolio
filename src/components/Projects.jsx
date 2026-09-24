@@ -1,8 +1,8 @@
 import React from "react";
 import { projects } from "../data";
 import SectionHeader from "./SectionHeader";
-import { GitBranch, ExternalLink, Zap } from "lucide-react";
-import { triggerThunderNav } from "../utils/thunder";
+import { GitBranch, ExternalLink } from "lucide-react";
+import { navigateToSection } from "../utils/thunder";
 
 const statusColors = {
   Live: "bg-red-500/20 text-red-400 border-red-500/40",
@@ -14,7 +14,7 @@ export default function Projects() {
   const handleProjectDemoClick = (project, e) => {
     if (project.demo.startsWith("#")) {
       e.preventDefault();
-      triggerThunderNav(project.demo.slice(1), e);
+      navigateToSection(project.demo.slice(1));
     }
   };
 

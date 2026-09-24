@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { skills } from "../data";
 import SectionHeader from "./SectionHeader";
-import { Cpu, Bot, Zap, CircuitBoard, Sparkles, ShieldCheck } from "lucide-react";
-import { triggerThunderNav } from "../utils/thunder";
+import { Cpu, Bot, CircuitBoard, Sparkles, ShieldCheck } from "lucide-react";
 
 export default function Skills() {
   const [activeCategory, setActiveCategory] = useState("All");
@@ -13,11 +12,6 @@ export default function Skills() {
     activeCategory === "All"
       ? skills
       : skills.filter((s) => s.category === activeCategory);
-
-  const handleCardClick = (skillName, e) => {
-    // Interactive thunder crackle on card click
-    triggerThunderNav("skills", e);
-  };
 
   return (
     <section id="skills" className="py-24 px-4 relative overflow-hidden">
@@ -56,8 +50,7 @@ export default function Skills() {
           {filtered.map((skill) => (
             <div
               key={skill.name}
-              onClick={(e) => handleCardClick(skill.name, e)}
-              className="group relative rounded-2xl bg-zinc-950/90 border border-red-950/80 p-7 hover:border-red-500/80 transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-red-600/25 cursor-pointer overflow-hidden backdrop-blur-xl"
+              className="group relative rounded-2xl bg-zinc-950/90 border border-red-950/80 p-7 hover:border-red-500/80 transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-red-600/25 cursor-default overflow-hidden backdrop-blur-xl"
               style={{
                 transformStyle: "preserve-3d",
               }}
@@ -134,15 +127,14 @@ export default function Skills() {
                 </div>
               )}
 
-              {/* Card Footer Interactive Indicator */}
+              {/* Card Footer Indicator */}
               <div className="mt-6 flex items-center justify-between text-xs text-zinc-500 pt-3 border-t border-red-950/40">
                 <span className="font-mono text-[11px] text-red-500/80 flex items-center gap-1">
                   <ShieldCheck size={13} className="text-red-500" />
                   ECE Core Curriculum & Practical Labs
                 </span>
-                <span className="text-zinc-400 group-hover:text-yellow-400 transition-colors flex items-center gap-1 font-mono text-[11px]">
-                  <Zap size={11} className="fill-yellow-400" />
-                  Strike Thunder
+                <span className="text-zinc-400 font-mono text-[11px]">
+                  Verified Domain
                 </span>
               </div>
             </div>
