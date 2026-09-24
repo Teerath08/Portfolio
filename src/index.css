@@ -5,58 +5,138 @@
 @layer base {
   html {
     scroll-behavior: smooth;
+    color-scheme: dark;
   }
 
   body {
-    @apply antialiased bg-slate-950 text-slate-100 min-h-screen overflow-x-hidden;
+    @apply antialiased bg-[#030303] text-zinc-100 min-h-screen overflow-x-hidden selection:bg-red-600 selection:text-white;
+    background-color: #030303;
+    background-image: 
+      radial-gradient(circle at 50% 0%, rgba(185, 28, 28, 0.18) 0%, transparent 60%),
+      radial-gradient(circle at 10% 40%, rgba(127, 29, 29, 0.12) 0%, transparent 50%),
+      radial-gradient(circle at 90% 70%, rgba(153, 27, 27, 0.15) 0%, transparent 50%);
+    background-attachment: fixed;
   }
 
   ::-webkit-scrollbar {
-    width: 6px;
+    width: 8px;
   }
   ::-webkit-scrollbar-track {
-    background: #0f172a;
+    background: #050505;
   }
   ::-webkit-scrollbar-thumb {
-    background: #334155;
+    background: #450a0a;
     border-radius: 4px;
+    border: 1px solid rgba(239, 68, 68, 0.2);
   }
   ::-webkit-scrollbar-thumb:hover {
-    background: #6366f1;
+    background: #dc2626;
+    box-shadow: 0 0 10px rgba(220, 38, 38, 0.8);
   }
 }
 
 @layer components {
+  /* 3D Perspective Containers */
+  .perspective-1000 {
+    perspective: 1000px;
+  }
+  .preserve-3d {
+    transform-style: preserve-3d;
+  }
+
+  /* 3D Cyber Glass Cards */
   .glass-card {
-    @apply bg-slate-900/60 border border-slate-800 backdrop-blur-sm rounded-2xl;
+    @apply bg-zinc-950/80 border border-red-950/70 backdrop-blur-md rounded-2xl shadow-xl shadow-black/80;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .glass-card:hover {
+    border-color: rgba(239, 68, 68, 0.5);
+    box-shadow: 0 10px 30px -10px rgba(220, 38, 38, 0.25), 0 0 15px rgba(239, 68, 68, 0.1);
+  }
+
+  /* 3D Floating Section Headings */
+  .section-heading-container {
+    perspective: 1000px;
+    display: inline-block;
+  }
+
+  .floating-3d-heading {
+    position: relative;
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    transform-style: preserve-3d;
+    animation: float3D 6s ease-in-out infinite;
+    cursor: pointer;
+    transition: transform 0.3s ease, filter 0.3s ease;
+  }
+
+  .floating-3d-heading:hover {
+    filter: drop-shadow(0 0 25px rgba(239, 68, 68, 0.7));
+    transform: perspective(1000px) translateY(-6px) rotateX(8deg) scale(1.03);
   }
 
   .section-title {
-    @apply text-3xl md:text-4xl font-bold text-white mb-2;
+    @apply text-3xl sm:text-4xl md:text-5xl font-black text-white tracking-tight;
+    text-shadow: 
+      0 1px 0 #991b1b,
+      0 2px 0 #7f1d1d,
+      0 3px 0 #450a0a,
+      0 4px 0 #250404,
+      0 0 25px rgba(239, 68, 68, 0.6),
+      0 0 50px rgba(185, 28, 28, 0.3);
   }
 
   .section-subtitle {
-    @apply text-slate-400 mb-12 text-base;
+    @apply text-zinc-400 mb-12 text-sm sm:text-base max-w-xl mx-auto;
   }
 
+  /* Thunder target arrival highlight */
+  .thunder-targeted {
+    animation: thunderImpactPulse 1.4s ease-out forwards;
+  }
+
+  @keyframes thunderImpactPulse {
+    0% {
+      transform: scale(0.95);
+      filter: drop-shadow(0 0 45px rgba(255, 255, 255, 1)) drop-shadow(0 0 70px #ef4444);
+    }
+    30% {
+      transform: scale(1.08);
+      filter: drop-shadow(0 0 60px #ff003c) drop-shadow(0 0 90px #dc2626);
+    }
+    100% {
+      transform: scale(1);
+      filter: drop-shadow(0 0 25px rgba(239, 68, 68, 0.6));
+    }
+  }
+
+  /* Vibrant Crimson Red Gradients */
   .gradient-text {
-    @apply bg-gradient-to-r from-indigo-400 via-violet-400 to-sky-400 bg-clip-text text-transparent;
+    @apply bg-gradient-to-r from-red-500 via-rose-500 to-amber-500 bg-clip-text text-transparent;
+    filter: drop-shadow(0 0 12px rgba(239, 68, 68, 0.4));
   }
 
+  .gradient-text-red {
+    @apply bg-gradient-to-r from-red-600 via-rose-500 to-red-400 bg-clip-text text-transparent;
+  }
+
+  /* Cool Buttons */
   .btn-primary {
-    @apply inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-semibold transition-all duration-200 shadow-lg shadow-indigo-500/25 hover:shadow-indigo-500/40 hover:-translate-y-0.5 active:translate-y-0;
+    @apply inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-red-600 via-rose-600 to-red-700 hover:from-red-500 hover:via-rose-500 hover:to-red-600 text-white font-bold tracking-wide transition-all duration-300 shadow-lg shadow-red-600/35 hover:shadow-red-500/60 hover:-translate-y-1 active:translate-y-0 border border-red-400/30 cursor-pointer;
   }
 
   .btn-outline {
-    @apply inline-flex items-center gap-2 px-6 py-3 rounded-xl border border-slate-600 hover:border-indigo-500 text-slate-300 hover:text-white font-semibold transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0;
+    @apply inline-flex items-center gap-2 px-6 py-3 rounded-xl border border-red-900/80 bg-red-950/20 hover:border-red-500 text-zinc-300 hover:text-white font-semibold transition-all duration-300 hover:-translate-y-1 active:translate-y-0 shadow-md shadow-black/60 hover:shadow-red-950/40 hover:bg-red-900/30 cursor-pointer;
   }
 
   .skill-card {
-    @apply glass-card p-5 flex flex-col items-center gap-3 hover:border-indigo-500/50 hover:bg-slate-800/60 transition-all duration-300 cursor-default hover:-translate-y-1;
+    @apply glass-card p-6 flex flex-col items-center gap-4 hover:border-red-500/60 hover:bg-zinc-900/90 transition-all duration-300 cursor-pointer hover:-translate-y-2 relative overflow-hidden;
   }
 
   .project-card {
-    @apply glass-card p-6 flex flex-col gap-4 hover:border-indigo-500/40 hover:bg-slate-800/40 transition-all duration-300 hover:-translate-y-1;
+    @apply glass-card p-6 flex flex-col gap-4 hover:border-red-500/50 hover:bg-zinc-900/70 transition-all duration-300 hover:-translate-y-2;
   }
 }
 
@@ -65,27 +145,19 @@
     text-wrap: balance;
   }
 
-  .animate-float {
-    animation: float 6s ease-in-out infinite;
+  /* 3D Cyber Grid effect */
+  .bg-cyber-grid {
+    background-image: 
+      linear-gradient(rgba(220, 38, 38, 0.08) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(220, 38, 38, 0.08) 1px, transparent 1px);
+    background-size: 50px 50px;
   }
 
-  @keyframes float {
-    0%, 100% { transform: translateY(0px); }
-    50% { transform: translateY(-10px); }
+  .glow-red {
+    box-shadow: 0 0 35px -5px rgba(220, 38, 38, 0.6);
   }
 
-  .animate-gradient {
-    background-size: 200% 200%;
-    animation: gradientShift 4s ease infinite;
-  }
-
-  @keyframes gradientShift {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-  }
-
-  .glow-indigo {
-    box-shadow: 0 0 40px -10px rgba(99, 102, 241, 0.5);
+  .glow-red-lg {
+    box-shadow: 0 0 60px -10px rgba(239, 68, 68, 0.7);
   }
 }

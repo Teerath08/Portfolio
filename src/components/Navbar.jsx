@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Zap } from "lucide-react";
 import { personalInfo } from "../data";
+import { triggerThunderNav } from "../utils/thunder";
 
 const navLinks = [
   { href: "#home", label: "Home" },
@@ -25,7 +26,7 @@ export default function Navbar({ profileImage }) {
       const sections = navLinks.map((l) => l.href.slice(1));
       for (let i = sections.length - 1; i >= 0; i--) {
         const el = document.getElementById(sections[i]);
-        if (el && window.scrollY >= el.offsetTop - 100) {
+        if (el && window.scrollY >= el.offsetTop - 120) {
           setActiveSection(sections[i]);
           break;
         }
@@ -36,17 +37,16 @@ export default function Navbar({ profileImage }) {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const handleNavClick = (href) => {
+  const handleNavClick = (href, e) => {
     setMobileOpen(false);
-    const el = document.querySelector(href);
-    if (el) el.scrollIntoView({ behavior: "smooth" });
+    triggerThunderNav(href.slice(1), e);
   };
 
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         scrolled
-          ? "bg-slate-950/90 backdrop-blur-md border-b border-slate-800/70 shadow-lg shadow-slate-950/50"
+          ? "bg-black/90 backdrop-blur-md border-b border-red-950/70 shadow-lg shadow-black/80"
           : "bg-transparent"
       }`}
     >
@@ -54,19 +54,22 @@ export default function Navbar({ profileImage }) {
         {/* Logo */}
         <a
           href="#home"
-          onClick={(e) => { e.preventDefault(); handleNavClick("#home"); }}
-          className="flex items-center gap-2 group"
+          onClick={(e) => {
+            e.preventDefault();
+            handleNavClick("#home", e);
+          }}
+          className="flex items-center gap-2 group cursor-pointer"
         >
-          <div className="w-9 h-9 rounded-lg overflow-hidden bg-gradient-to-br from-indigo-500 to-violet-600 flex items-center justify-center font-bold text-white text-sm shadow-lg shadow-indigo-500/25 group-hover:scale-105 transition-transform">
+          <div className="w-9 h-9 rounded-lg overflow-hidden bg-gradient-to-br from-red-600 via-rose-600 to-red-800 flex items-center justify-center font-bold text-white text-sm shadow-lg shadow-red-600/30 group-hover:scale-105 transition-transform border border-red-400/40">
             {profileImage ? (
               <img src={profileImage} alt="Teerath Jangid" className="w-full h-full object-cover" />
             ) : (
               "TJ"
             )}
           </div>
-          <span className="font-bold text-white text-sm hidden sm:block">
+          <span className="font-extrabold text-white text-sm hidden sm:block tracking-wide">
             {personalInfo.firstName}{" "}
-            <span className="text-indigo-400">Jangid</span>
+            <span className="text-red-500 font-black">Jangid</span>
           </span>
         </a>
 
@@ -75,23 +78,24 @@ export default function Navbar({ profileImage }) {
           {navLinks.map((link) => (
             <button
               key={link.href}
-              onClick={() => handleNavClick(link.href)}
-              className={`px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
+              onClick={(e) => handleNavClick(link.href, e)}
+              className={`px-3 py-1.5 rounded-lg text-xs font-semibold uppercase tracking-wider transition-all duration-200 cursor-pointer flex items-center gap-1 ${
                 activeSection === link.href.slice(1)
-                  ? "text-white bg-indigo-600/20 text-indigo-300"
-                  : "text-slate-400 hover:text-white hover:bg-slate-800/60"
+                  ? "text-red-400 bg-red-950/50 border border-red-800/50 shadow-sm shadow-red-900/30"
+                  : "text-zinc-400 hover:text-white hover:bg-zinc-900/70 hover:border-red-950 border border-transparent"
               }`}
             >
+              {activeSection === link.href.slice(1) && (
+                <Zap size={11} className="text-yellow-400 fill-yellow-400" />
+              )}
               {link.label}
             </button>
           ))}
         </div>
 
-
-
         {/* Mobile menu button */}
         <button
-          className="md:hidden p-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
+          className="md:hidden p-2 rounded-lg text-zinc-400 hover:text-white hover:bg-zinc-900 transition-colors"
           onClick={() => setMobileOpen(!mobileOpen)}
           aria-label="Toggle menu"
         >
@@ -101,19 +105,20 @@ export default function Navbar({ profileImage }) {
 
       {/* Mobile drawer */}
       {mobileOpen && (
-        <div className="md:hidden bg-slate-950/95 backdrop-blur-md border-b border-slate-800 px-4 pb-4 pt-2">
+        <div className="md:hidden bg-black/95 backdrop-blur-md border-b border-red-950 px-4 pb-4 pt-2">
           <div className="flex flex-col gap-1">
             {navLinks.map((link) => (
               <button
                 key={link.href}
-                onClick={() => handleNavClick(link.href)}
-                className={`text-left px-4 py-3 rounded-xl text-sm font-medium transition-colors ${
+                onClick={(e) => handleNavClick(link.href, e)}
+                className={`text-left px-4 py-3 rounded-xl text-sm font-semibold transition-colors flex items-center justify-between ${
                   activeSection === link.href.slice(1)
-                    ? "bg-indigo-600/20 text-indigo-300"
-                    : "text-slate-300 hover:bg-slate-800 hover:text-white"
+                    ? "bg-red-950/60 text-red-400 border border-red-800/50"
+                    : "text-zinc-300 hover:bg-zinc-900 hover:text-white"
                 }`}
               >
-                {link.label}
+                <span>{link.label}</span>
+                <Zap size={14} className="text-red-500" />
               </button>
             ))}
           </div>
