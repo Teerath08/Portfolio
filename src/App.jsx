@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
 import About from "./components/About";
@@ -9,6 +9,8 @@ import Achievements from "./components/Achievements";
 import Contact from "./components/Contact";
 import Footer from "./components/Footer";
 import ProfileImageModal from "./components/ProfileImageModal";
+import ThunderOverlay from "./components/ThunderOverlay";
+import ThunderQuickNav from "./components/ThunderQuickNav";
 
 export default function App() {
   const [profileImage, setProfileImage] = useState(() => {
@@ -31,9 +33,14 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 font-sans">
+    <div className="min-h-screen bg-[#030303] text-zinc-100 font-sans selection:bg-red-600 selection:text-white relative">
+      {/* Global Interactive Thunder Lightning Overlay */}
+      <ThunderOverlay />
+
+      {/* Navigation */}
       <Navbar profileImage={profileImage} />
-      <main>
+
+      <main className="relative z-10">
         <Hero
           profileImage={profileImage}
           onOpenPhotoModal={() => setIsPhotoModalOpen(true)}
@@ -48,7 +55,11 @@ export default function App() {
         <Achievements />
         <Contact />
       </main>
+
       <Footer />
+
+      {/* Floating 3D Thunder Navigation HUD */}
+      <ThunderQuickNav />
 
       {/* Profile Photo Crop & Upload Modal */}
       <ProfileImageModal

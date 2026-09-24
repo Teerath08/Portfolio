@@ -1,6 +1,7 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { achievements } from "../data";
-import { Award, BookOpen, Code2, Trophy, Plus } from "lucide-react";
+import SectionHeader from "./SectionHeader";
+import { Award, BookOpen, Code2, Trophy, Plus, Sparkles } from "lucide-react";
 
 const tabs = [
   { key: "certifications", label: "Certifications", icon: <Award size={16} /> },
@@ -10,10 +11,10 @@ const tabs = [
 ];
 
 const tabColors = {
-  certifications: "from-amber-500 to-orange-500",
-  hackathons: "from-indigo-500 to-violet-500",
-  courses: "from-sky-500 to-blue-500",
-  awards: "from-emerald-500 to-green-500",
+  certifications: "from-red-600 to-rose-700",
+  hackathons: "from-rose-600 to-red-800",
+  courses: "from-red-500 to-amber-600",
+  awards: "from-red-700 to-rose-900",
 };
 
 export default function Achievements() {
@@ -21,18 +22,16 @@ export default function Achievements() {
   const items = achievements[activeTab];
 
   return (
-    <section id="achievements" className="py-24 px-4">
+    <section id="achievements" className="py-24 px-4 relative overflow-hidden">
       <div className="max-w-5xl mx-auto">
-        {/* Section header */}
-        <div className="text-center mb-16">
-          <h2 className="section-title">
-            My <span className="gradient-text">Achievements</span>
-          </h2>
-          <p className="section-subtitle max-w-xl mx-auto">
-            Milestones, certifications, and accomplishments on my journey.
-          </p>
-          <div className="w-16 h-1 rounded-full bg-gradient-to-r from-indigo-500 to-violet-500 mx-auto" />
-        </div>
+        {/* Floating 3D Section Header */}
+        <SectionHeader
+          badge="MILESTONES & HONORS"
+          title="My"
+          highlight="Achievements"
+          subtitle="Certifications, hackathons, and learning milestones in robotics and embedded systems."
+          sectionId="achievements"
+        />
 
         {/* Tab navigation */}
         <div className="flex flex-wrap gap-2 justify-center mb-10">
@@ -40,10 +39,10 @@ export default function Achievements() {
             <button
               key={tab.key}
               onClick={() => setActiveTab(tab.key)}
-              className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 ${
+              className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-200 cursor-pointer ${
                 activeTab === tab.key
-                  ? `bg-gradient-to-r ${tabColors[tab.key]} text-white shadow-lg`
-                  : "bg-slate-800/60 text-slate-400 border border-slate-700 hover:text-white hover:border-slate-500"
+                  ? `bg-gradient-to-r ${tabColors[tab.key]} text-white shadow-lg shadow-red-600/35 border border-red-400/30 scale-105`
+                  : "bg-zinc-950/70 text-zinc-400 border border-red-950/80 hover:text-white hover:border-red-600/50 hover:bg-red-950/20"
               }`}
             >
               {tab.icon}
@@ -56,20 +55,20 @@ export default function Achievements() {
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
           {items.map((item, index) =>
             item.placeholder ? (
-              // Placeholder card — shows how to add new entries
+              // Placeholder card
               <div
                 key={index}
-                className="glass-card p-6 border-dashed border-slate-700 hover:border-indigo-500/40 transition-all duration-300 flex items-center justify-center"
+                className="glass-card p-6 border-dashed border-red-950/80 hover:border-red-500/50 transition-all duration-300 flex items-center justify-center"
               >
                 <div className="text-center">
-                  <div className="w-12 h-12 rounded-full bg-slate-800 border border-dashed border-slate-600 flex items-center justify-center mx-auto mb-3">
-                    <Plus size={20} className="text-slate-500" />
+                  <div className="w-12 h-12 rounded-full bg-black/80 border border-dashed border-red-800/60 flex items-center justify-center mx-auto mb-3">
+                    <Plus size={20} className="text-red-500" />
                   </div>
-                  <p className="text-slate-500 text-sm font-medium">
+                  <p className="text-zinc-300 text-sm font-semibold mb-1">
                     {item.title}
                   </p>
-                  <p className="text-slate-600 text-xs mt-1">
-                    Edit <code className="text-indigo-500">src/data.js</code> to add entries
+                  <p className="text-zinc-500 text-xs">
+                    Update in <code className="text-red-400 font-mono">src/data.js</code>
                   </p>
                 </div>
               </div>
@@ -77,22 +76,22 @@ export default function Achievements() {
               // Real achievement card
               <div
                 key={index}
-                className="glass-card p-6 hover:border-indigo-500/40 hover:-translate-y-1 transition-all duration-300"
+                className="glass-card p-6 hover:border-red-500/50 hover:-translate-y-1 transition-all duration-300"
               >
                 <div className="flex items-start gap-4">
                   <div
-                    className={`w-10 h-10 rounded-xl bg-gradient-to-br ${tabColors[activeTab]} flex items-center justify-center flex-shrink-0`}
+                    className={`w-10 h-10 rounded-xl bg-gradient-to-br ${tabColors[activeTab]} flex items-center justify-center flex-shrink-0 text-white shadow-md shadow-red-950`}
                   >
                     {tabs.find((t) => t.key === activeTab)?.icon}
                   </div>
                   <div className="flex-1">
-                    <div className="font-semibold text-white text-sm mb-1">
+                    <div className="font-bold text-white text-sm mb-1">
                       {item.title}
                     </div>
-                    <div className="text-slate-400 text-xs">
+                    <div className="text-zinc-400 text-xs">
                       {item.issuer || item.event || item.platform}
                     </div>
-                    <div className="text-slate-600 text-xs mt-2">{item.date}</div>
+                    <div className="text-zinc-500 text-xs mt-2 font-mono">{item.date}</div>
                   </div>
                 </div>
               </div>
@@ -101,12 +100,11 @@ export default function Achievements() {
         </div>
 
         {/* Coming soon banner */}
-        <div className="mt-10 glass-card p-6 text-center border-indigo-500/20">
-          <div className="text-3xl mb-3">🚀</div>
-          <h3 className="font-semibold text-white mb-2">More Coming Soon!</h3>
-          <p className="text-slate-400 text-sm max-w-md mx-auto">
-            Currently working on certifications, hackathons, and other achievements.
-            This section will grow as I continue my learning journey.
+        <div className="mt-10 glass-card p-6 text-center border-red-900/40">
+          <div className="text-3xl mb-3">⚡</div>
+          <h3 className="font-bold text-white mb-2">More Milestones in Progress!</h3>
+          <p className="text-zinc-400 text-sm max-w-md mx-auto">
+            Actively pursuing certifications in Robotics, Microprocessors, and Hardware Architecture.
           </p>
         </div>
       </div>

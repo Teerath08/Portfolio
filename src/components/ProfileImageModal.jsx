@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react";
 import Cropper from "react-easy-crop";
-import { Upload, Trash2, X, Check, ZoomIn, Camera, Image as ImageIcon } from "lucide-react";
+import { Upload, Trash2, X, Check, ZoomIn, Camera } from "lucide-react";
 import { getCroppedImg } from "../utils/cropImage";
 
 export default function ProfileImageModal({ isOpen, onClose, currentImage, onSave, onRemove }) {
@@ -57,17 +57,17 @@ export default function ProfileImageModal({ isOpen, onClose, currentImage, onSav
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md animate-fade-in">
-      <div className="relative w-full max-w-lg bg-slate-900 border border-slate-800 rounded-2xl shadow-2xl overflow-hidden text-slate-100">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md animate-fade-in">
+      <div className="relative w-full max-w-lg bg-zinc-950 border border-red-950 rounded-2xl shadow-2xl shadow-black overflow-hidden text-zinc-100">
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-slate-800">
+        <div className="flex items-center justify-between px-6 py-4 border-b border-red-950/80">
           <div className="flex items-center gap-2">
-            <Camera className="text-indigo-400" size={20} />
+            <Camera className="text-red-500" size={20} />
             <h3 className="text-lg font-bold text-white">Profile Photo</h3>
           </div>
           <button
             onClick={handleClose}
-            className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
+            className="p-1.5 rounded-lg text-zinc-400 hover:text-white hover:bg-zinc-900 transition-colors cursor-pointer"
           >
             <X size={20} />
           </button>
@@ -83,17 +83,17 @@ export default function ProfileImageModal({ isOpen, onClose, currentImage, onSav
                   <img
                     src={currentImage}
                     alt="Profile Avatar"
-                    className="w-36 h-36 rounded-full object-cover border-4 border-indigo-500/40 shadow-xl"
+                    className="w-36 h-36 rounded-full object-cover border-4 border-red-600/50 shadow-xl shadow-red-950"
                   />
                 </div>
               ) : (
-                <div className="w-36 h-36 rounded-full bg-gradient-to-br from-indigo-600 to-violet-700 flex items-center justify-center text-white text-4xl font-extrabold shadow-xl mb-6 border-4 border-indigo-500/30">
+                <div className="w-36 h-36 rounded-full bg-gradient-to-br from-red-600 via-rose-700 to-black flex items-center justify-center text-white text-4xl font-extrabold shadow-xl mb-6 border-4 border-red-500/40">
                   TJ
                 </div>
               )}
 
-              <p className="text-sm text-slate-400 max-w-xs mb-6">
-                Upload a photo to personalize your portfolio. You can adjust & crop after selecting.
+              <p className="text-sm text-zinc-400 max-w-xs mb-6">
+                Upload a photo to personalize your portfolio. You can adjust and crop after selecting.
               </p>
 
               <input
@@ -107,7 +107,7 @@ export default function ProfileImageModal({ isOpen, onClose, currentImage, onSav
               <div className="flex flex-wrap justify-center gap-3 w-full">
                 <button
                   onClick={() => fileInputRef.current?.click()}
-                  className="px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-medium text-sm flex items-center gap-2 shadow-lg shadow-indigo-500/25 transition-all"
+                  className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-red-600 to-rose-700 hover:from-red-500 hover:to-rose-600 text-white font-medium text-sm flex items-center gap-2 shadow-lg shadow-red-600/30 transition-all cursor-pointer"
                 >
                   <Upload size={16} />
                   {currentImage ? "Change Photo" : "Upload Photo"}
@@ -116,7 +116,7 @@ export default function ProfileImageModal({ isOpen, onClose, currentImage, onSav
                 {currentImage && (
                   <button
                     onClick={handleRemove}
-                    className="px-5 py-2.5 rounded-xl bg-slate-800 hover:bg-rose-500/20 text-rose-400 border border-rose-500/30 font-medium text-sm flex items-center gap-2 transition-all"
+                    className="px-5 py-2.5 rounded-xl bg-zinc-900 hover:bg-red-950/40 text-red-400 border border-red-900/60 font-medium text-sm flex items-center gap-2 transition-all cursor-pointer"
                   >
                     <Trash2 size={16} />
                     Remove Photo
@@ -127,7 +127,7 @@ export default function ProfileImageModal({ isOpen, onClose, currentImage, onSav
           ) : (
             /* Cropper Area */
             <div>
-              <div className="relative w-full h-72 rounded-xl overflow-hidden bg-slate-950 border border-slate-800 mb-4">
+              <div className="relative w-full h-72 rounded-xl overflow-hidden bg-black border border-red-950 mb-4">
                 <Cropper
                   image={imageSrc}
                   crop={crop}
@@ -143,7 +143,7 @@ export default function ProfileImageModal({ isOpen, onClose, currentImage, onSav
 
               {/* Zoom Controls */}
               <div className="flex items-center gap-3 mb-6 px-2">
-                <ZoomIn size={16} className="text-slate-400" />
+                <ZoomIn size={16} className="text-zinc-400" />
                 <input
                   type="range"
                   min={1}
@@ -151,25 +151,25 @@ export default function ProfileImageModal({ isOpen, onClose, currentImage, onSav
                   step={0.05}
                   value={zoom}
                   onChange={(e) => setZoom(Number(e.target.value))}
-                  className="w-full accent-indigo-500 bg-slate-800 h-1.5 rounded-lg cursor-pointer"
+                  className="w-full accent-red-500 bg-zinc-900 h-1.5 rounded-lg cursor-pointer"
                 />
-                <span className="text-xs font-mono text-slate-400 min-w-8 text-right">
+                <span className="text-xs font-mono text-zinc-400 min-w-8 text-right">
                   {Math.round(zoom * 100)}%
                 </span>
               </div>
 
               {/* Action Buttons */}
-              <div className="flex justify-end gap-3 pt-2 border-t border-slate-800">
+              <div className="flex justify-end gap-3 pt-2 border-t border-red-950/80">
                 <button
                   onClick={() => setImageSrc(null)}
-                  className="px-4 py-2 rounded-xl text-slate-300 hover:bg-slate-800 text-sm font-medium transition-colors"
+                  className="px-4 py-2 rounded-xl text-zinc-300 hover:bg-zinc-900 text-sm font-medium transition-colors cursor-pointer"
                 >
                   Back
                 </button>
                 <button
                   onClick={handleSaveCrop}
                   disabled={isProcessing}
-                  className="px-5 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-semibold flex items-center gap-2 shadow-lg shadow-indigo-500/25 transition-all disabled:opacity-50"
+                  className="px-5 py-2 rounded-xl bg-gradient-to-r from-red-600 to-rose-700 hover:from-red-500 hover:to-rose-600 text-white text-sm font-bold flex items-center gap-2 shadow-lg shadow-red-600/30 transition-all disabled:opacity-50 cursor-pointer"
                 >
                   <Check size={16} />
                   {isProcessing ? "Saving..." : "Save & Apply"}
