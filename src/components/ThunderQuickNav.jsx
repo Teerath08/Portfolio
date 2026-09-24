@@ -16,14 +16,21 @@ export default function ThunderQuickNav() {
   const [minimized, setMinimized] = useState(false);
 
   useEffect(() => {
+    let ticking = false;
     const handleScroll = () => {
-      const scrollPos = window.scrollY + 200;
-      for (let i = navItems.length - 1; i >= 0; i--) {
-        const el = document.getElementById(navItems[i].id);
-        if (el && scrollPos >= el.offsetTop) {
-          setActive(navItems[i].id);
-          break;
-        }
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          const scrollPos = window.scrollY + 200;
+          for (let i = navItems.length - 1; i >= 0; i--) {
+            const el = document.getElementById(navItems[i].id);
+            if (el && scrollPos >= el.offsetTop) {
+              setActive(navItems[i].id);
+              break;
+            }
+          }
+          ticking = false;
+        });
+        ticking = true;
       }
     };
     window.addEventListener("scroll", handleScroll, { passive: true });

@@ -21,15 +21,23 @@ export default function App() {
   const handleSaveProfileImage = (newImage) => {
     setProfileImage(newImage);
     if (newImage) {
-      localStorage.setItem("portfolio_profile_pic", newImage);
+      try {
+        localStorage.setItem("portfolio_profile_pic", newImage);
+      } catch (err) {
+        console.warn("Failed to persist to localStorage", err);
+      }
     } else {
-      localStorage.removeItem("portfolio_profile_pic");
+      try {
+        localStorage.removeItem("portfolio_profile_pic");
+      } catch (err) {}
     }
   };
 
   const handleRemoveProfileImage = () => {
     setProfileImage(null);
-    localStorage.removeItem("portfolio_profile_pic");
+    try {
+      localStorage.removeItem("portfolio_profile_pic");
+    } catch (err) {}
   };
 
   return (

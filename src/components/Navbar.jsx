@@ -19,17 +19,24 @@ export default function Navbar({ profileImage }) {
   const [activeSection, setActiveSection] = useState("home");
 
   useEffect(() => {
+    let ticking = false;
     const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          setScrolled(window.scrollY > 20);
 
-      // Highlight active section
-      const sections = navLinks.map((l) => l.href.slice(1));
-      for (let i = sections.length - 1; i >= 0; i--) {
-        const el = document.getElementById(sections[i]);
-        if (el && window.scrollY >= el.offsetTop - 120) {
-          setActiveSection(sections[i]);
-          break;
-        }
+          // Highlight active section
+          const sections = navLinks.map((l) => l.href.slice(1));
+          for (let i = sections.length - 1; i >= 0; i--) {
+            const el = document.getElementById(sections[i]);
+            if (el && window.scrollY >= el.offsetTop - 120) {
+              setActiveSection(sections[i]);
+              break;
+            }
+          }
+          ticking = false;
+        });
+        ticking = true;
       }
     };
 
