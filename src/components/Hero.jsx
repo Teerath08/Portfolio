@@ -59,14 +59,11 @@ export default function Hero({ profileImage, onOpenPhotoModal }) {
         {/* 3D Floating Name */}
         <div className="perspective-1000 mb-4">
           <h1
-            className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black text-white tracking-tight leading-none"
-            style={{
-              textShadow:
-                "0 2px 0 #991b1b, 0 4px 0 #7f1d1d, 0 6px 0 #450a0a, 0 0 30px rgba(239, 68, 68, 0.55)",
-            }}
+            data-text="Hi, I'm Teerath Jangid"
+            className="hero-title text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black text-white tracking-tight leading-none"
           >
             Hi, I'm{" "}
-            <span className="bg-gradient-to-r from-red-500 via-rose-500 to-red-400 bg-clip-text text-transparent">
+            <span className="hero-title-name bg-gradient-to-r from-red-500 via-rose-500 to-red-400 bg-clip-text text-transparent">
               {personalInfo.firstName}
             </span>{" "}
             <span className="block sm:inline">Jangid</span>

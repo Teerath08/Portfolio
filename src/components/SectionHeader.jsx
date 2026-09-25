@@ -33,7 +33,10 @@ export default function SectionHeader({
           </div>
 
           {/* 3D Extruded Title */}
-          <h2 className="section-title flex items-center justify-center gap-3">
+          <h2
+            data-text={`${title} ${highlight}`}
+            className="section-title flex items-center justify-center gap-3"
+          >
             <span>{title}</span>
             <span className="gradient-text">{highlight}</span>
           </h2>
