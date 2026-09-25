@@ -22,7 +22,14 @@ const GEMINI_ENDPOINT = "https://generativelanguage.googleapis.com/v1beta/models
 // `gemini-2.5-flash` have been retired by Google and now 404 for new keys,
 // which would silently drop the widget back to offline answers.
 const MODEL = process.env.GEMINI_MODEL || "gemini-flash-lite-latest";
-const REQUEST_TIMEOUT_MS = 12000;
+// Per-attempt ceiling for a single Gemini call.
+const REQUEST_TIMEOUT_MS = 8000;
+// Ceiling for the whole request, retries included. Serverless hosts kill a
+// function that overruns its limit, and a killed function surfaces in the
+// browser as "Failed to fetch" rather than as an error message. Staying well
+// under the platform ceiling means a slow upstream degrades into an offline
+// answer instead of a dropped connection.
+const TOTAL_BUDGET_MS = 18_000;
 const MAX_MESSAGE_LENGTH = 1000;
 const MAX_HISTORY = 12;
 const RATE_LIMIT = { windowMs: 60_000, max: 20 };
@@ -31,11 +38,27 @@ const RATE_LIMIT = { windowMs: 60_000, max: 20 };
 const GEMINI_ATTEMPTS = 3;
 const RETRY_BASE_DELAY_MS = 600;
 
+// Ask the host for enough room to use the budget above. Ignored by `next dev`.
+export const maxDuration = 30;
+
 /** In-memory token buckets, keyed by client IP. */
 const buckets = new Map();
+let lastSweep = 0;
 
 function rateLimited(key) {
   const now = Date.now();
+
+  // Expired buckets are swept lazily rather than on a timer. A module-scope
+  // setInterval holds the event loop open, which stops a serverless instance
+  // from ever being frozen and reused, so on a host like Vercel it shows up as
+  // random hangs and dropped connections rather than as a tidy cleanup.
+  if (now - lastSweep > RATE_LIMIT.windowMs) {
+    lastSweep = now;
+    for (const [id, entry] of buckets) {
+      if (now > entry.resetAt) buckets.delete(id);
+    }
+  }
+
   const bucket = buckets.get(key);
 
   if (!bucket || now > bucket.resetAt) {
@@ -45,17 +68,6 @@ function rateLimited(key) {
 
   bucket.count += 1;
   return bucket.count > RATE_LIMIT.max;
-}
-
-// Keep the bucket map from growing without bound on a long-running instance.
-if (typeof setInterval !== "undefined") {
-  const timer = setInterval(() => {
-    const now = Date.now();
-    for (const [key, bucket] of buckets) {
-      if (now > bucket.resetAt) buckets.delete(key);
-    }
-  }, RATE_LIMIT.windowMs);
-  timer.unref?.();
 }
 
 const SYSTEM_INSTRUCTION = `You are Vegapunk, the AI companion built into a personal software portfolio website. You are the site's guide, its shopkeeper, and its conversational partner all at once.
@@ -148,13 +160,14 @@ function buildContents(message, history) {
  * completion resolves to `null` instead, because retrying those just burns
  * quota.
  */
-async function callGemini(apiKey, payload) {
+async function callGemini(apiKey, payload, budgetMs) {
   const response = await fetch(
     `${GEMINI_ENDPOINT}/${MODEL}:generateContent?key=${encodeURIComponent(apiKey)}`,
     {
       method: "POST",
       headers: { "content-type": "application/json" },
-      signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS),
+      // Never let one attempt outlive the request's total budget.
+      signal: AbortSignal.timeout(Math.max(1000, Math.min(REQUEST_TIMEOUT_MS, budgetMs))),
       body: JSON.stringify(payload),
     },
   );
@@ -194,9 +207,20 @@ async function askGemini(message, history) {
   // The free tier is regularly overloaded and answers 503 with "high demand",
   // which is transient by definition. One retry turns most of those into a
   // normal reply instead of a silent drop back to the offline bot.
+  const deadline = Date.now() + TOTAL_BUDGET_MS;
+
   for (let attempt = 1; attempt <= GEMINI_ATTEMPTS; attempt += 1) {
+    const remaining = deadline - Date.now();
+
+    // No time left for an attempt that could finish. Answering from the
+    // knowledge base now beats being killed by the platform.
+    if (remaining < 1500) {
+      console.warn("[chat] out of time budget, answering offline instead of retrying.");
+      return null;
+    }
+
     try {
-      return await callGemini(apiKey, payload);
+      return await callGemini(apiKey, payload, remaining);
     } catch (error) {
       const status = error?.status;
       const transient = status === 429 || status === 503 || status >= 500 || !status;

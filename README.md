@@ -66,6 +66,31 @@ silent.
 - If the Gemini call fails or times out, it falls back to the offline
   knowledge base, so the widget always replies.
 
+### Deploying so it runs continuously
+
+`npm run dev` is for local work only — it stops when you close it, and the key
+in `.env` stays on your machine. To keep Vegapunk online you need to deploy the
+site and put the key in the host's environment:
+
+1. Commit and push the code. `.env` is gitignored, so the key stays local.
+2. Import the repo into Vercel (a `vercel.json` is already present).
+3. In Vercel, add the environment variable for the production deployment:
+   - `GEMINI_API_KEY` — the same value from your local `.env`
+4. Redeploy. No rebuild of the key is needed; it is read at request time.
+
+Check it with `https://your-domain/api/chat` — a JSON reply means the key
+reached the server. If it reports `aiEnabled: false`, the variable is missing
+from that environment.
+
+Two things to know about the deployed version:
+
+- The rate limiter is in-memory and per instance, so on a serverless host the
+  20/minute cap applies per instance rather than globally. It is a speed bump
+  against abuse, not a security control.
+- Free Gemini keys have per-minute and per-day request ceilings. When one is
+  hit, the endpoint answers from the offline knowledge base instead of failing,
+  so visitors see a working bot in a limited mode rather than an error.
+
 ## Development
 
 ```bash
