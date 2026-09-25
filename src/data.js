@@ -58,8 +58,8 @@ export const projects = [
   {
     title: "Personal Portfolio Website",
     description:
-      "A modern, responsive personal portfolio website with a futuristic 3D black & crimson theme, featuring electric thunder transitions and interactive floating cards.",
-    tech: ["React", "Vite", "Tailwind CSS", "JavaScript"],
+      "A modern, responsive personal portfolio website with a futuristic 3D black & crimson theme, featuring electric thunder transitions, interactive floating cards, and persistent dark and light themes.",
+    tech: ["Next.js", "React", "Tailwind CSS", "JavaScript"],
     github: "https://github.com/Teerath08",
     demo: "#projects",
     emoji: "🌐",

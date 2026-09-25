@@ -1,6 +1,5 @@
-import React, { useState, useRef, useEffect, useCallback } from "react";
+import React, { useState, useRef, useCallback } from "react";
 import Cropper from "react-easy-crop";
-import "react-easy-crop/react-easy-crop.css";
 import {
   Upload,
   Trash2,
@@ -10,7 +9,6 @@ import {
   ZoomOut,
   Camera,
   RotateCcw,
-  Sparkles,
   AlertCircle,
   Eye,
 } from "lucide-react";
@@ -34,7 +32,6 @@ export default function ProfileImageModal({
 
   const fileInputRef = useRef(null);
   const loadedImageRef = useRef(null);
-  const previewCanvasRef = useRef(null);
 
   // Clean up state when modal closes
   const handleClose = () => {
@@ -144,7 +141,7 @@ export default function ProfileImageModal({
       );
 
       setLivePreview(canvas.toDataURL("image/jpeg", 0.85));
-    } catch (err) {
+    } catch {
       // Ignore preview errors silently
     }
   };
@@ -199,7 +196,7 @@ export default function ProfileImageModal({
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md animate-fade-in">
       <div className="relative w-full max-w-lg bg-zinc-950 border border-red-950 rounded-2xl shadow-2xl shadow-black overflow-hidden text-zinc-100 flex flex-col max-h-[90vh]">
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-red-950/80 bg-black/40">
+        <div className="flex items-center justify-between px-6 py-4 border-b border-red-950/80 bg-zinc-900/40">
           <div className="flex items-center gap-2.5">
             <div className="w-8 h-8 rounded-lg bg-red-950/70 border border-red-800/60 flex items-center justify-center text-red-500 shadow-md">
               <Camera size={18} />
@@ -254,13 +251,13 @@ export default function ProfileImageModal({
                     className="w-32 h-32 rounded-full object-cover border-4 border-red-600/60 shadow-xl shadow-red-950/80"
                   />
                   <div className="absolute inset-0 rounded-full bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                    <span className="text-[11px] font-mono text-white bg-red-600/80 px-2 py-1 rounded-md">
+                    <span className="accent-text text-[11px] font-mono text-white bg-red-600/80 px-2 py-1 rounded-md">
                       Current Pic
                     </span>
                   </div>
                 </div>
               ) : (
-                <div className="w-32 h-32 rounded-full bg-gradient-to-br from-red-600 via-rose-700 to-black flex items-center justify-center text-white text-4xl font-extrabold shadow-xl mb-5 border-4 border-red-500/40">
+                <div className="accent-text w-32 h-32 rounded-full bg-gradient-to-br from-red-600 via-rose-700 to-black flex items-center justify-center text-white text-4xl font-extrabold shadow-xl mb-5 border-4 border-red-500/40">
                   TJ
                 </div>
               )}
@@ -321,7 +318,7 @@ export default function ProfileImageModal({
               </div>
 
               {/* Real-time Live Preview Badge & Zoom Controls Row */}
-              <div className="p-4 rounded-xl bg-black/60 border border-red-950 flex flex-col gap-3">
+              <div className="p-4 rounded-xl bg-zinc-900/60 border border-red-950 flex flex-col gap-3">
                 {/* Live Avatar Preview Row */}
                 <div className="flex items-center justify-between gap-3 pb-3 border-b border-red-950/80">
                   <div className="flex items-center gap-2.5">

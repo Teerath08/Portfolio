@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
 import { personalInfo } from "../data";
 import { navigateToSection } from "../utils/thunder";
+import ThemeToggle from "./ThemeToggle";
 
 const navLinks = [
   { href: "#home", label: "Home" },
@@ -54,7 +55,7 @@ export default function Navbar({ profileImage }) {
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         scrolled
-          ? "bg-black/90 backdrop-blur-md border-b border-red-950/70 shadow-lg shadow-black/80"
+          ? "bg-background/90 backdrop-blur-md border-b border-red-950/70 shadow-lg shadow-black/20"
           : "bg-transparent"
       }`}
     >
@@ -65,7 +66,7 @@ export default function Navbar({ profileImage }) {
           onClick={(e) => handleNavClick("#home", e)}
           className="flex items-center gap-2 group cursor-pointer"
         >
-          <div className="w-9 h-9 rounded-lg overflow-hidden bg-gradient-to-br from-red-600 via-rose-600 to-red-800 flex items-center justify-center font-bold text-white text-sm shadow-lg shadow-red-600/30 group-hover:scale-105 transition-transform border border-red-400/40">
+          <div className="accent-text w-9 h-9 rounded-lg overflow-hidden bg-gradient-to-br from-red-600 via-rose-600 to-red-800 flex items-center justify-center font-bold text-white text-sm shadow-lg shadow-red-600/30 group-hover:scale-105 transition-transform border border-red-400/40">
             {profileImage ? (
               <img src={profileImage} alt="Teerath Jangid" className="w-full h-full object-cover" />
             ) : (
@@ -78,36 +79,42 @@ export default function Navbar({ profileImage }) {
           </span>
         </a>
 
-        {/* Desktop links */}
-        <div className="hidden md:flex items-center gap-1">
-          {navLinks.map((link) => (
-            <button
-              key={link.href}
-              onClick={(e) => handleNavClick(link.href, e)}
-              className={`px-3 py-1.5 rounded-lg text-xs font-semibold uppercase tracking-wider transition-all duration-200 cursor-pointer ${
-                activeSection === link.href.slice(1)
-                  ? "text-red-400 bg-red-950/50 border border-red-800/50 shadow-sm shadow-red-900/30"
-                  : "text-zinc-400 hover:text-white hover:bg-zinc-900/70 hover:border-red-950 border border-transparent"
-              }`}
-            >
-              {link.label}
-            </button>
-          ))}
-        </div>
+        <div className="flex items-center gap-2">
+          {/* Desktop links */}
+          <div className="hidden md:flex items-center gap-1">
+            {navLinks.map((link) => (
+              <button
+                key={link.href}
+                onClick={(e) => handleNavClick(link.href, e)}
+                className={`px-3 py-1.5 rounded-lg text-xs font-semibold uppercase tracking-wider transition-all duration-200 cursor-pointer ${
+                  activeSection === link.href.slice(1)
+                    ? "text-red-400 bg-red-950/50 border border-red-800/50 shadow-sm shadow-red-900/30"
+                    : "text-zinc-400 hover:text-white hover:bg-zinc-900/70 hover:border-red-950 border border-transparent"
+                }`}
+              >
+                {link.label}
+              </button>
+            ))}
+          </div>
 
-        {/* Mobile menu button */}
-        <button
-          className="md:hidden p-2 rounded-lg text-zinc-400 hover:text-white hover:bg-zinc-900 transition-colors cursor-pointer"
-          onClick={() => setMobileOpen(!mobileOpen)}
-          aria-label="Toggle menu"
-        >
-          {mobileOpen ? <X size={20} /> : <Menu size={20} />}
-        </button>
+          <ThemeToggle />
+
+          {/* Mobile menu button */}
+          <button
+            className="md:hidden p-2 rounded-lg text-zinc-400 hover:text-white hover:bg-zinc-900 transition-colors cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500"
+            onClick={() => setMobileOpen(!mobileOpen)}
+            aria-label="Toggle menu"
+            aria-expanded={mobileOpen}
+            aria-controls="mobile-navigation"
+          >
+            {mobileOpen ? <X size={20} /> : <Menu size={20} />}
+          </button>
+        </div>
       </nav>
 
       {/* Mobile drawer */}
       {mobileOpen && (
-        <div className="md:hidden bg-black/95 backdrop-blur-md border-b border-red-950 px-4 pb-4 pt-2">
+        <div id="mobile-navigation" className="md:hidden bg-background/95 backdrop-blur-md border-b border-red-950 px-4 pb-4 pt-2">
           <div className="flex flex-col gap-1">
             {navLinks.map((link) => (
               <button

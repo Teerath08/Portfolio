@@ -65,7 +65,7 @@ export default function About({ profileImage, onOpenPhotoModal }) {
                       className="w-full h-full object-cover rounded-full"
                     />
                   ) : (
-                    <span className="text-7xl sm:text-8xl font-black text-white/95 select-none tracking-tight">
+                    <span className="accent-text text-7xl sm:text-8xl font-black text-white/95 select-none tracking-tight">
                       TJ
                     </span>
                   )}
@@ -73,7 +73,7 @@ export default function About({ profileImage, onOpenPhotoModal }) {
                   {/* Camera overlay button */}
                   <button
                     onClick={onOpenPhotoModal}
-                    className="absolute inset-0 bg-black/80 opacity-0 group-hover:opacity-100 flex flex-col items-center justify-center gap-2 text-white font-medium transition-all duration-300 backdrop-blur-xs cursor-pointer"
+                    className="accent-text absolute inset-0 bg-black/80 opacity-0 group-hover:opacity-100 flex flex-col items-center justify-center gap-2 text-white font-medium transition-all duration-300 backdrop-blur-xs cursor-pointer"
                     title="Upload & Crop Profile Photo"
                   >
                     <Camera size={32} className="text-red-400 animate-bounce" />
@@ -94,11 +94,11 @@ export default function About({ profileImage, onOpenPhotoModal }) {
               </button>
 
               {/* Floating decorative badges with 3D depth */}
-              <div className="absolute -bottom-2 -right-2 sm:bottom-4 sm:right-0 bg-black/90 border border-red-900/80 rounded-2xl px-4 py-2 shadow-2xl backdrop-blur-md">
+              <div className="absolute -bottom-2 -right-2 sm:bottom-4 sm:right-0 bg-background/90 border border-red-900/80 rounded-2xl px-4 py-2 shadow-2xl backdrop-blur-md">
                 <div className="text-[11px] font-mono text-zinc-400">📍 Location</div>
                 <div className="text-sm font-bold text-white">Jaipur, India</div>
               </div>
-              <div className="absolute -top-2 -left-2 sm:top-4 sm:left-0 bg-black/90 border border-red-900/80 rounded-2xl px-4 py-2 shadow-2xl backdrop-blur-md">
+              <div className="absolute -top-2 -left-2 sm:top-4 sm:left-0 bg-background/90 border border-red-900/80 rounded-2xl px-4 py-2 shadow-2xl backdrop-blur-md">
                 <div className="text-[11px] font-mono text-red-400">🎓 Specialization</div>
                 <div className="text-sm font-bold text-white">Robotics & ECE</div>
               </div>
@@ -145,7 +145,7 @@ export default function About({ profileImage, onOpenPhotoModal }) {
               className="glass-card p-5 hover:-translate-y-2 transition-all duration-300 hover:border-red-500/70 group"
             >
               <div
-                className={`w-11 h-11 rounded-xl bg-gradient-to-br ${p.color} flex items-center justify-center text-white mb-4 group-hover:scale-110 transition-transform shadow-lg shadow-red-950/80`}
+                className={`accent-text w-11 h-11 rounded-xl bg-gradient-to-br ${p.color} flex items-center justify-center text-white mb-4 group-hover:scale-110 transition-transform shadow-lg shadow-red-950/40`}
               >
                 {p.icon}
               </div>

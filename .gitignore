@@ -3,9 +3,13 @@ node_modules/
 jspm_packages/
 
 # Production build outputs
+.next/
 dist/
 dist-ssr/
 build/
+
+# Next.js generated files
+next-env.d.ts
 
 # Vercel & OS temporary files
 .vercel

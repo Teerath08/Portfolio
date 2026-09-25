@@ -102,7 +102,7 @@ export default function Contact() {
                   className="glass-card p-4 flex items-center gap-4 hover:border-red-500/60 hover:-translate-y-0.5 transition-all duration-300 group"
                 >
                   <div
-                    className={`w-11 h-11 rounded-xl bg-gradient-to-br ${item.color} flex items-center justify-center text-white flex-shrink-0 group-hover:scale-105 transition-transform shadow-md shadow-red-950/60 border border-red-400/20`}
+                    className={`accent-text w-11 h-11 rounded-xl bg-gradient-to-br ${item.color} flex items-center justify-center text-white flex-shrink-0 group-hover:scale-105 transition-transform shadow-md shadow-red-950/40 border border-red-400/20`}
                   >
                     {item.icon}
                   </div>
@@ -149,7 +149,7 @@ export default function Contact() {
                   value={form.name}
                   onChange={handleChange}
                   placeholder="e.g. Alex Mercer"
-                  className="w-full px-4 py-3 rounded-xl bg-black/80 border border-red-950 text-white placeholder-zinc-600 text-sm focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500/50 transition-colors"
+                  className="w-full px-4 py-3 rounded-xl bg-zinc-900/80 border border-red-950 text-white placeholder-zinc-500 text-sm focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500/50 transition-colors"
                   required
                 />
               </div>
@@ -164,7 +164,7 @@ export default function Contact() {
                   value={form.email}
                   onChange={handleChange}
                   placeholder="alex@domain.com"
-                  className="w-full px-4 py-3 rounded-xl bg-black/80 border border-red-950 text-white placeholder-zinc-600 text-sm focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500/50 transition-colors"
+                  className="w-full px-4 py-3 rounded-xl bg-zinc-900/80 border border-red-950 text-white placeholder-zinc-500 text-sm focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500/50 transition-colors"
                   required
                 />
               </div>
@@ -179,7 +179,7 @@ export default function Contact() {
                   value={form.message}
                   onChange={handleChange}
                   placeholder="Tell me about your project, idea, or hardware inquiry..."
-                  className="w-full px-4 py-3 rounded-xl bg-black/80 border border-red-950 text-white placeholder-zinc-600 text-sm focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500/50 transition-colors resize-none"
+                  className="w-full px-4 py-3 rounded-xl bg-zinc-900/80 border border-red-950 text-white placeholder-zinc-500 text-sm focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500/50 transition-colors resize-none"
                   required
                 />
               </div>

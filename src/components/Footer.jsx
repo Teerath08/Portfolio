@@ -24,13 +24,13 @@ export default function Footer() {
   };
 
   return (
-    <footer className="border-t border-red-950/80 bg-black/95 mt-12 pb-16">
+    <footer className="border-t border-red-950/80 bg-background/95 mt-12 pb-16">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10 mb-10">
           {/* Brand */}
           <div>
             <div className="flex items-center gap-2 mb-4">
-              <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-red-600 via-rose-600 to-red-800 flex items-center justify-center font-bold text-white text-sm shadow-lg shadow-red-600/30 border border-red-400/40">
+              <div className="accent-text w-9 h-9 rounded-lg bg-gradient-to-br from-red-600 via-rose-600 to-red-800 flex items-center justify-center font-bold text-white text-sm shadow-lg shadow-red-600/30 border border-red-400/40">
                 TJ
               </div>
               <span className="font-extrabold text-white tracking-wide">

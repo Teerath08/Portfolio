@@ -1,4 +1,6 @@
-import { useState } from "react";
+"use client";
+
+import { useEffect, useState } from "react";
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
 import About from "./components/About";
@@ -12,10 +14,18 @@ import ProfileImageModal from "./components/ProfileImageModal";
 import QuickNav from "./components/ThunderQuickNav";
 
 export default function App() {
-  const [profileImage, setProfileImage] = useState(() => {
-    return localStorage.getItem("portfolio_profile_pic") || null;
-  });
+  const [profileImage, setProfileImage] = useState(null);
   const [isPhotoModalOpen, setIsPhotoModalOpen] = useState(false);
+
+  useEffect(() => {
+    try {
+      // The saved avatar lives in localStorage, so it can only be read after hydration.
+      // oxlint-disable-next-line react/set-state-in-effect
+      setProfileImage(localStorage.getItem("portfolio_profile_pic") || null);
+    } catch (error) {
+      console.warn("Failed to load profile image from localStorage", error);
+    }
+  }, []);
 
   const handleSaveProfileImage = (newImage) => {
     setProfileImage(newImage);
@@ -28,7 +38,7 @@ export default function App() {
     } else {
       try {
         localStorage.removeItem("portfolio_profile_pic");
-      } catch (err) {}
+      } catch {}
     }
   };
 
@@ -36,11 +46,11 @@ export default function App() {
     setProfileImage(null);
     try {
       localStorage.removeItem("portfolio_profile_pic");
-    } catch (err) {}
+    } catch {}
   };
 
   return (
-    <div className="min-h-screen bg-[#030303] text-zinc-100 font-sans selection:bg-red-600 selection:text-white relative">
+    <div className="min-h-screen bg-background text-zinc-100 font-sans selection:bg-red-600 selection:text-white relative transition-colors duration-300">
       {/* Navigation */}
       <Navbar profileImage={profileImage} />
 

@@ -36,7 +36,7 @@ export default function Skills() {
               onClick={() => setActiveCategory(cat)}
               className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-medium transition-all duration-300 cursor-pointer ${
                 activeCategory === cat
-                  ? "bg-gradient-to-r from-red-600 to-rose-700 text-white shadow-lg shadow-red-600/40 border border-red-400/40 scale-105"
+                  ? "accent-text bg-gradient-to-r from-red-600 to-rose-700 text-white shadow-lg shadow-red-600/40 border border-red-400/40 scale-105"
                   : "bg-zinc-950/70 text-zinc-400 border border-red-950/80 hover:text-white hover:border-red-600/50 hover:bg-red-950/20"
               }`}
             >
@@ -71,9 +71,9 @@ export default function Skills() {
                     className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${skill.color} border border-red-400/30 flex items-center justify-center text-3xl shadow-xl shadow-red-950/80 group-hover:scale-110 group-hover:rotate-3 transition-transform duration-300`}
                   >
                     {skill.name === "Robotics" ? (
-                      <Bot className="text-white drop-shadow-[0_0_10px_rgba(255,255,255,0.8)]" size={32} />
+                      <Bot className="accent-text text-white drop-shadow-[0_0_10px_rgba(255,255,255,0.8)]" size={32} />
                     ) : (
-                      <Cpu className="text-white drop-shadow-[0_0_10px_rgba(255,255,255,0.8)]" size={32} />
+                      <Cpu className="accent-text text-white drop-shadow-[0_0_10px_rgba(255,255,255,0.8)]" size={32} />
                     )}
                   </div>
 

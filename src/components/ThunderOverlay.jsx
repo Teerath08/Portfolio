@@ -19,6 +19,7 @@ export default function ThunderOverlay() {
     window.addEventListener("resize", handleResize);
 
     const unsubscribe = subscribeToThunder(({ startCoords, targetEl }) => {
+      // oxlint-disable-next-line react/immutability
       triggerLightningStrike(startCoords, targetEl);
     });
 

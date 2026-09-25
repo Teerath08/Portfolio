@@ -34,7 +34,7 @@ export default function Education() {
           <div className="hidden md:block absolute left-8 top-0 bottom-0 w-px bg-gradient-to-b from-red-600 via-rose-600 to-transparent shadow-lg shadow-red-600/50" />
 
           {/* Timeline dot */}
-          <div className="hidden md:flex absolute left-4 top-8 w-9 h-9 rounded-full bg-gradient-to-br from-red-600 to-rose-700 items-center justify-center shadow-lg shadow-red-600/40 z-10 border border-red-400/30">
+          <div className="accent-text hidden md:flex absolute left-4 top-8 w-9 h-9 rounded-full bg-gradient-to-br from-red-600 to-rose-700 items-center justify-center shadow-lg shadow-red-600/40 z-10 border border-red-400/30">
             <GraduationCap size={18} className="text-white" />
           </div>
 
@@ -65,8 +65,8 @@ export default function Education() {
               </div>
 
               {/* Institution */}
-              <div className="flex items-center gap-3 mb-6 p-4 rounded-xl bg-black/60 border border-red-950/70">
-                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-red-600 via-rose-600 to-red-800 flex items-center justify-center text-white font-extrabold text-sm flex-shrink-0 shadow-lg shadow-red-600/30 border border-red-400/30">
+              <div className="flex items-center gap-3 mb-6 p-4 rounded-xl bg-zinc-900/60 border border-red-950/70">
+                <div className="accent-text w-12 h-12 rounded-xl bg-gradient-to-br from-red-600 via-rose-600 to-red-800 flex items-center justify-center text-white font-extrabold text-sm flex-shrink-0 shadow-lg shadow-red-600/30 border border-red-400/30">
                   JU
                 </div>
                 <div>

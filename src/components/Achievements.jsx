@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { achievements } from "../data";
 import SectionHeader from "./SectionHeader";
-import { Award, BookOpen, Code2, Trophy, Plus, Sparkles } from "lucide-react";
+import { Award, BookOpen, Code2, Trophy, Plus } from "lucide-react";
 
 const tabs = [
   { key: "certifications", label: "Certifications", icon: <Award size={16} /> },
@@ -41,7 +41,7 @@ export default function Achievements() {
               onClick={() => setActiveTab(tab.key)}
               className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-200 cursor-pointer ${
                 activeTab === tab.key
-                  ? `bg-gradient-to-r ${tabColors[tab.key]} text-white shadow-lg shadow-red-600/35 border border-red-400/30 scale-105`
+                  ? `accent-text bg-gradient-to-r ${tabColors[tab.key]} text-white shadow-lg shadow-red-600/35 border border-red-400/30 scale-105`
                   : "bg-zinc-950/70 text-zinc-400 border border-red-950/80 hover:text-white hover:border-red-600/50 hover:bg-red-950/20"
               }`}
             >
@@ -61,7 +61,7 @@ export default function Achievements() {
                 className="glass-card p-6 border-dashed border-red-950/80 hover:border-red-500/50 transition-all duration-300 flex items-center justify-center"
               >
                 <div className="text-center">
-                  <div className="w-12 h-12 rounded-full bg-black/80 border border-dashed border-red-800/60 flex items-center justify-center mx-auto mb-3">
+                  <div className="w-12 h-12 rounded-full bg-zinc-900/80 border border-dashed border-red-800/60 flex items-center justify-center mx-auto mb-3">
                     <Plus size={20} className="text-red-500" />
                   </div>
                   <p className="text-zinc-300 text-sm font-semibold mb-1">
@@ -80,7 +80,7 @@ export default function Achievements() {
               >
                 <div className="flex items-start gap-4">
                   <div
-                    className={`w-10 h-10 rounded-xl bg-gradient-to-br ${tabColors[activeTab]} flex items-center justify-center flex-shrink-0 text-white shadow-md shadow-red-950`}
+                    className={`accent-text w-10 h-10 rounded-xl bg-gradient-to-br ${tabColors[activeTab]} flex items-center justify-center flex-shrink-0 text-white shadow-md shadow-red-950`}
                   >
                     {tabs.find((t) => t.key === activeTab)?.icon}
                   </div>

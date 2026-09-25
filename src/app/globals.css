@@ -2,62 +2,143 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --theme-background: 3 3 3;
+  --theme-foreground: 255 255 255;
+  --theme-zinc-50: 250 250 250;
+  --theme-zinc-100: 244 244 245;
+  --theme-zinc-200: 228 228 231;
+  --theme-zinc-300: 212 212 216;
+  --theme-zinc-400: 161 161 170;
+  --theme-zinc-500: 113 113 122;
+  --theme-zinc-600: 82 82 91;
+  --theme-zinc-700: 63 63 70;
+  --theme-zinc-800: 39 39 42;
+  --theme-zinc-900: 24 24 27;
+  --theme-zinc-950: 9 9 11;
+  --theme-red-50: 255 241 242;
+  --theme-red-100: 255 228 230;
+  --theme-red-200: 254 205 211;
+  --theme-red-300: 253 164 175;
+  --theme-red-400: 248 113 113;
+  --theme-red-500: 239 68 68;
+  --theme-red-600: 220 38 38;
+  --theme-red-700: 185 28 28;
+  --theme-red-800: 153 27 27;
+  --theme-red-900: 127 29 29;
+  --theme-red-950: 69 10 10;
+  --crimson-50: 351 100% 97%;
+  --crimson-100: 351 100% 94%;
+  --crimson-400: 350 89% 71%;
+  --crimson-500: 350 89% 60%;
+  --crimson-600: 347 77% 50%;
+  --crimson-700: 345 70% 40%;
+  --crimson-800: 340 69% 34%;
+  --crimson-900: 338 45% 25%;
+  --crimson-950: 344 75% 14%;
+  color-scheme: dark;
+}
+
+html.light {
+  --theme-background: 250 250 250;
+  --theme-foreground: 24 24 27;
+  --theme-zinc-50: 255 255 255;
+  --theme-zinc-100: 250 250 250;
+  --theme-zinc-200: 244 244 245;
+  --theme-zinc-300: 228 228 231;
+  --theme-zinc-400: 82 82 91;
+  --theme-zinc-500: 113 113 122;
+  --theme-zinc-600: 82 82 91;
+  --theme-zinc-700: 161 161 170;
+  --theme-zinc-800: 212 212 216;
+  --theme-zinc-900: 244 244 245;
+  --theme-zinc-950: 255 255 255;
+  --theme-red-50: 255 245 245;
+  --theme-red-100: 255 228 230;
+  --theme-red-200: 254 226 226;
+  --theme-red-300: 190 18 60;
+  --theme-red-400: 185 28 28;
+  --theme-red-500: 220 38 38;
+  --theme-red-600: 220 38 38;
+  --theme-red-700: 190 18 60;
+  --theme-red-800: 159 18 57;
+  --theme-red-900: 127 29 29;
+  --theme-red-950: 255 241 242;
+  color-scheme: light;
+}
+
 @layer base {
   html {
     scroll-behavior: smooth;
     scroll-padding-top: 80px;
     -webkit-overflow-scrolling: touch;
-    color-scheme: dark;
   }
 
   body {
-    @apply antialiased bg-[#030303] text-zinc-100 min-h-screen overflow-x-hidden selection:bg-red-600 selection:text-white;
-    background-color: #030303;
-    background-image: 
+    @apply antialiased min-h-screen overflow-x-hidden selection:bg-red-600;
+    background-color: rgb(var(--theme-background));
+    background-image:
       radial-gradient(circle at 50% 0%, rgba(185, 28, 28, 0.18) 0%, transparent 60%),
       radial-gradient(circle at 10% 40%, rgba(127, 29, 29, 0.12) 0%, transparent 50%),
       radial-gradient(circle at 90% 70%, rgba(153, 27, 27, 0.15) 0%, transparent 50%);
-    /* background-attachment:fixed causes continuous repaints — removed for smoothness */
+    color: rgb(var(--theme-foreground));
+    transition:
+      background-color 300ms ease,
+      color 300ms ease;
+  }
+
+  html.light body {
+    background-image:
+      radial-gradient(circle at 50% 0%, rgba(254, 226, 226, 0.8) 0%, transparent 60%),
+      radial-gradient(circle at 10% 40%, rgba(255, 228, 230, 0.65) 0%, transparent 50%),
+      radial-gradient(circle at 90% 70%, rgba(254, 226, 226, 0.55) 0%, transparent 50%);
+  }
+
+  ::selection {
+    color: #ffffff;
   }
 
   ::-webkit-scrollbar {
     width: 8px;
   }
+
   ::-webkit-scrollbar-track {
-    background: #050505;
+    background: rgb(var(--theme-background));
   }
+
   ::-webkit-scrollbar-thumb {
-    background: #450a0a;
-    border-radius: 4px;
+    background: rgb(var(--theme-red-800));
     border: 1px solid rgba(239, 68, 68, 0.2);
+    border-radius: 4px;
   }
+
   ::-webkit-scrollbar-thumb:hover {
-    background: #dc2626;
-    box-shadow: 0 0 10px rgba(220, 38, 38, 0.8);
+    background: rgb(var(--theme-red-600));
+    box-shadow: 0 0 10px rgba(220, 38, 38, 0.45);
   }
 }
 
 @layer components {
-  /* 3D Perspective Containers */
   .perspective-1000 {
     perspective: 1000px;
   }
+
   .preserve-3d {
     transform-style: preserve-3d;
   }
 
-  /* 3D Cyber Glass Cards */
   .glass-card {
-    @apply bg-zinc-950/80 border border-red-950/70 backdrop-blur-md rounded-2xl shadow-xl shadow-black/80;
+    @apply bg-zinc-950/80 border border-red-950/70 backdrop-blur-md rounded-2xl shadow-xl shadow-black/20;
     transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
   .glass-card:hover {
     border-color: rgba(239, 68, 68, 0.5);
-    box-shadow: 0 10px 30px -10px rgba(220, 38, 38, 0.25), 0 0 15px rgba(239, 68, 68, 0.1);
+    box-shadow:
+      0 10px 30px -10px rgba(220, 38, 38, 0.18),
+      0 0 15px rgba(239, 68, 68, 0.08);
   }
 
-  /* 3D Floating Section Headings */
   .section-heading-container {
     perspective: 1000px;
     display: inline-block;
@@ -68,20 +149,21 @@
     display: inline-flex;
     flex-direction: column;
     align-items: center;
-    /* Removed infinite float animation — was causing jank */
     cursor: default;
-    transition: transform 0.3s ease, filter 0.3s ease;
+    transition:
+      transform 0.3s ease,
+      filter 0.3s ease;
     will-change: transform;
   }
 
   .floating-3d-heading:hover {
-    filter: drop-shadow(0 0 20px rgba(239, 68, 68, 0.6));
+    filter: drop-shadow(0 0 20px rgba(239, 68, 68, 0.45));
     transform: translateY(-3px) scale(1.01);
   }
 
   .section-title {
     @apply text-3xl sm:text-4xl md:text-5xl font-black text-white tracking-tight;
-    text-shadow: 
+    text-shadow:
       0 1px 0 #991b1b,
       0 2px 0 #7f1d1d,
       0 3px 0 #450a0a,
@@ -94,7 +176,6 @@
     @apply text-zinc-400 mb-12 text-sm sm:text-base max-w-xl mx-auto;
   }
 
-  /* Thunder target arrival highlight */
   .thunder-targeted {
     animation: thunderImpactPulse 1.4s ease-out forwards;
   }
@@ -114,20 +195,18 @@
     }
   }
 
-  /* ─── Section Arrival Heading Highlight (2s) ─── */
   .section-arrive-highlight {
     animation: sectionArriveGlow 2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
     position: relative;
   }
 
-  /* Shimmer sweep overlay on the heading text */
   .section-arrive-highlight::after {
     content: "";
     position: absolute;
     inset: -4px -8px;
     border-radius: 12px;
     background: linear-gradient(
-      105deg,
+      130deg,
       transparent 20%,
       rgba(239, 68, 68, 0.18) 40%,
       rgba(255, 120, 120, 0.35) 50%,
@@ -148,19 +227,19 @@
     }
     18% {
       transform: translateY(-4px) scale(1.04);
-      filter: drop-shadow(0 0 30px rgba(239, 68, 68, 0.95))
-              drop-shadow(0 0 55px rgba(220, 38, 38, 0.6))
-              drop-shadow(0 0 80px rgba(185, 28, 28, 0.3));
+      filter: drop-shadow(0 0 30px rgba(239, 68, 68, 0.75))
+        drop-shadow(0 0 55px rgba(220, 38, 38, 0.45))
+        drop-shadow(0 0 80px rgba(185, 28, 28, 0.2));
       opacity: 1;
     }
     45% {
       transform: translateY(-2px) scale(1.02);
-      filter: drop-shadow(0 0 22px rgba(239, 68, 68, 0.75))
-              drop-shadow(0 0 40px rgba(220, 38, 38, 0.4));
+      filter: drop-shadow(0 0 22px rgba(239, 68, 68, 0.55))
+        drop-shadow(0 0 40px rgba(220, 38, 38, 0.3));
     }
     100% {
       transform: translateY(0) scale(1);
-      filter: drop-shadow(0 0 8px rgba(239, 68, 68, 0.2));
+      filter: drop-shadow(0 0 8px rgba(239, 68, 68, 0.15));
       opacity: 1;
     }
   }
@@ -182,24 +261,22 @@
     }
   }
 
-
-  /* Vibrant Crimson Red Gradients */
   .gradient-text {
     @apply bg-gradient-to-r from-red-500 via-rose-500 to-amber-500 bg-clip-text text-transparent;
-    filter: drop-shadow(0 0 12px rgba(239, 68, 68, 0.4));
+    filter: drop-shadow(0 0 12px rgba(239, 68, 68, 0.3));
   }
 
   .gradient-text-red {
     @apply bg-gradient-to-r from-red-600 via-rose-500 to-red-400 bg-clip-text text-transparent;
   }
 
-  /* Cool Buttons */
   .btn-primary {
     @apply inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-red-600 via-rose-600 to-red-700 hover:from-red-500 hover:via-rose-500 hover:to-red-600 text-white font-bold tracking-wide transition-all duration-300 shadow-lg shadow-red-600/35 hover:shadow-red-500/60 hover:-translate-y-1 active:translate-y-0 border border-red-400/30 cursor-pointer;
+    color: #ffffff !important;
   }
 
   .btn-outline {
-    @apply inline-flex items-center gap-2 px-6 py-3 rounded-xl border border-red-900/80 bg-red-950/20 hover:border-red-500 text-zinc-300 hover:text-white font-semibold transition-all duration-300 hover:-translate-y-1 active:translate-y-0 shadow-md shadow-black/60 hover:shadow-red-950/40 hover:bg-red-900/30 cursor-pointer;
+    @apply inline-flex items-center gap-2 px-6 py-3 rounded-xl border border-red-900/80 bg-red-950/20 hover:border-red-500 text-zinc-300 hover:text-white font-semibold transition-all duration-300 hover:-translate-y-1 active:translate-y-0 shadow-md shadow-black/10 hover:shadow-red-950/20 hover:bg-red-900/20 cursor-pointer;
   }
 
   .skill-card {
@@ -216,9 +293,8 @@
     text-wrap: balance;
   }
 
-  /* 3D Cyber Grid effect */
   .bg-cyber-grid {
-    background-image: 
+    background-image:
       linear-gradient(rgba(220, 38, 38, 0.08) 1px, transparent 1px),
       linear-gradient(90deg, rgba(220, 38, 38, 0.08) 1px, transparent 1px);
     background-size: 50px 50px;
@@ -230,5 +306,64 @@
 
   .glow-red-lg {
     box-shadow: 0 0 60px -10px rgba(239, 68, 68, 0.7);
+  }
+
+  .accent-text {
+    color: #ffffff !important;
+  }
+}
+
+.theme-toggle-icon {
+  transition:
+    transform 300ms ease,
+    opacity 300ms ease;
+}
+
+.theme-toggle-sun {
+  opacity: 1;
+  transform: rotate(0deg) scale(1);
+}
+
+.theme-toggle-moon {
+  opacity: 0;
+  transform: rotate(-90deg) scale(0.5);
+}
+
+html.light .theme-toggle-sun {
+  opacity: 0;
+  transform: rotate(90deg) scale(0.5);
+}
+
+html.light .theme-toggle-moon {
+  opacity: 1;
+  transform: rotate(0deg) scale(1);
+}
+
+html.light #home h1 {
+  text-shadow:
+    0 2px 0 #fecaca,
+    0 4px 0 #fca5a5,
+    0 0 24px rgba(220, 38, 38, 0.2) !important;
+}
+
+html.light .glass-card,
+html.light .project-card,
+html.light .skill-card {
+  box-shadow:
+    0 12px 35px -18px rgba(127, 29, 29, 0.28),
+    0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }
