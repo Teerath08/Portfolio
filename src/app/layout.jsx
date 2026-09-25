@@ -12,18 +12,21 @@ const plusJakartaSans = Plus_Jakarta_Sans({
 const themeScript = `
 (function () {
   try {
+    var themes = ["light", "dark", "neon"];
     var storedTheme = localStorage.getItem("portfolio-theme");
     var systemPrefersLight = window.matchMedia("(prefers-color-scheme: light)").matches;
-    var theme = storedTheme === "light" || storedTheme === "dark"
+    var theme = themes.indexOf(storedTheme) !== -1
       ? storedTheme
       : systemPrefersLight ? "light" : "dark";
     var root = document.documentElement;
     root.dataset.theme = theme;
-    root.style.colorScheme = theme;
+    root.style.colorScheme = theme === "light" ? "light" : "dark";
     root.classList.toggle("light", theme === "light");
     root.classList.toggle("dark", theme === "dark");
+    root.classList.toggle("neon", theme === "neon");
     var meta = document.querySelector('meta[name="theme-color"]');
-    if (meta) meta.setAttribute("content", theme === "light" ? "#fafafa" : "#030303");
+    var themeColor = theme === "light" ? "#fafafa" : theme === "neon" ? "#080000" : "#030303";
+    if (meta) meta.setAttribute("content", themeColor);
   } catch (error) {
     document.documentElement.dataset.theme = "dark";
   }

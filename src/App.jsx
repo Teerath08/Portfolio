@@ -12,6 +12,7 @@ import Contact from "./components/Contact";
 import Footer from "./components/Footer";
 import ProfileImageModal from "./components/ProfileImageModal";
 import QuickNav from "./components/ThunderQuickNav";
+import PortfolioChat from "./components/PortfolioChat";
 
 export default function App() {
   const [profileImage, setProfileImage] = useState(null);
@@ -74,6 +75,9 @@ export default function App() {
 
       {/* Bottom Quick Navigation Pill */}
       <QuickNav />
+
+      {/* Floating Portfolio Assistant */}
+      <PortfolioChat />
 
       {/* Profile Photo Crop & Upload Modal */}
       <ProfileImageModal

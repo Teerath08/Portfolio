@@ -36,6 +36,7 @@
   --crimson-800: 340 69% 34%;
   --crimson-900: 338 45% 25%;
   --crimson-950: 344 75% 14%;
+  --theme-heading: 255 255 255;
   color-scheme: dark;
 }
 
@@ -70,7 +71,44 @@ html.light {
   --theme-red-800: 159 18 57;
   --theme-red-900: 127 29 29;
   --theme-red-950: 255 241 242;
+  /* Headings go darker than body text so section titles keep their weight
+     against the pale background. */
+  --theme-heading: 9 9 11;
   color-scheme: light;
+}
+
+/*
+ * Neon: a near-black canvas with warm off-white type and electric crimson
+ * lighting. It stays dark for colour-scheme purposes, so native controls and
+ * scrollbars keep their dark treatment.
+ */
+html.neon {
+  --theme-background: 5 0 0;
+  --theme-foreground: 245 240 238;
+  --theme-zinc-50: 255 250 248;
+  --theme-zinc-100: 242 235 233;
+  --theme-zinc-200: 226 216 214;
+  --theme-zinc-300: 208 196 194;
+  --theme-zinc-400: 184 168 166;
+  --theme-zinc-500: 158 140 138;
+  --theme-zinc-600: 138 118 116;
+  --theme-zinc-700: 108 86 84;
+  --theme-zinc-800: 44 12 14;
+  --theme-zinc-900: 24 4 6;
+  --theme-zinc-950: 10 1 2;
+  --theme-red-50: 255 232 235;
+  --theme-red-100: 255 205 211;
+  --theme-red-200: 255 164 175;
+  --theme-red-300: 255 118 135;
+  --theme-red-400: 255 77 94;
+  --theme-red-500: 255 31 61;
+  --theme-red-600: 240 0 36;
+  --theme-red-700: 199 0 31;
+  --theme-red-800: 159 0 24;
+  --theme-red-900: 110 0 17;
+  --theme-red-950: 42 0 7;
+  --theme-heading: 255 244 242;
+  color-scheme: dark;
 }
 
 @layer base {
@@ -98,6 +136,21 @@ html.light {
       radial-gradient(circle at 50% 0%, rgba(254, 226, 226, 0.8) 0%, transparent 60%),
       radial-gradient(circle at 10% 40%, rgba(255, 228, 230, 0.65) 0%, transparent 50%),
       radial-gradient(circle at 90% 70%, rgba(254, 226, 226, 0.55) 0%, transparent 50%);
+  }
+
+  html.neon body {
+    background-image:
+      radial-gradient(circle at 50% 0%, rgba(255, 0, 54, 0.3) 0%, transparent 58%),
+      radial-gradient(circle at 8% 38%, rgba(255, 0, 45, 0.18) 0%, transparent 46%),
+      radial-gradient(circle at 92% 68%, rgba(255, 31, 61, 0.2) 0%, transparent 48%),
+      linear-gradient(rgba(255, 0, 60, 0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 0, 60, 0.05) 1px, transparent 1px);
+    background-size:
+      auto,
+      auto,
+      auto,
+      58px 58px,
+      58px 58px;
   }
 
   ::selection {
@@ -326,23 +379,40 @@ html.light {
 }
 
 .theme-toggle-sun {
+  opacity: 0;
+  transform: rotate(90deg) scale(0.5);
+}
+
+.theme-toggle-moon {
   opacity: 1;
   transform: rotate(0deg) scale(1);
 }
 
-.theme-toggle-moon {
+.theme-toggle-neon {
   opacity: 0;
   transform: rotate(-90deg) scale(0.5);
 }
 
 html.light .theme-toggle-sun {
-  opacity: 0;
-  transform: rotate(90deg) scale(0.5);
+  opacity: 1;
+  transform: rotate(0deg) scale(1);
 }
 
 html.light .theme-toggle-moon {
+  opacity: 0;
+  transform: rotate(-90deg) scale(0.5);
+}
+
+html.neon .theme-toggle-moon {
+  opacity: 0;
+  transform: rotate(-90deg) scale(0.5);
+}
+
+html.neon .theme-toggle-neon {
   opacity: 1;
   transform: rotate(0deg) scale(1);
+  color: #ff3b57;
+  filter: drop-shadow(0 0 6px rgba(255, 0, 60, 0.95));
 }
 
 /* ─── Cyber Glitch Headings ─── */
@@ -546,33 +616,114 @@ html.light .theme-toggle-moon {
 
 html.light .hero-title,
 html.light #home h1 {
+  color: rgb(var(--theme-heading));
   text-shadow:
-    -1.5px 0 rgba(14, 116, 144, 0.3),
-    1.5px 0 rgba(220, 38, 38, 0.32),
-    0 2px 0 #fecaca,
-    0 4px 0 #fca5a5,
-    0 0 26px rgba(220, 38, 38, 0.22) !important;
+    -1.5px 0 rgba(14, 116, 144, 0.28),
+    1.5px 0 rgba(220, 38, 38, 0.3),
+    0 1px 0 rgba(254, 202, 202, 0.9),
+    0 2px 0 rgba(252, 165, 165, 0.75);
 }
 
 html.light .section-title {
+  color: rgb(var(--theme-heading));
   text-shadow:
-    -1px 0 rgba(14, 116, 144, 0.24),
-    1px 0 rgba(220, 38, 38, 0.28),
-    0 1px 0 #fecaca,
-    0 2px 0 #fca5a5,
-    0 3px 0 #f4a2a2,
-    0 0 20px rgba(220, 38, 38, 0.2);
+    -1px 0 rgba(14, 116, 144, 0.22),
+    1px 0 rgba(220, 38, 38, 0.24),
+    0 1px 0 rgba(254, 202, 202, 0.9),
+    0 2px 0 rgba(252, 165, 165, 0.7);
 }
 
 /*
- * In light mode `border-red-950` resolves to a near-white pink, so cards would
- * lose their outline. Reinstate the surface + border explicitly.
+ * The dark-theme glow layers read as coloured haze once the background turns
+ * pale, so mute the cyan/red glitch echoes to keep the letterforms crisp.
  */
+html.light .hero-title::before,
+html.light .section-title::before {
+  color: rgba(14, 116, 144, 0.45);
+}
+
+html.light .hero-title::after,
+html.light .section-title::after {
+  color: rgba(190, 18, 60, 0.5);
+}
+
+/*
+ * Highlighted heading words (`.gradient-text`) end on amber-500, which only
+ * reaches 2.06:1 on white. Swap in a deeper crimson -> amber ramp that clears
+ * 6:1 while keeping the warm two-tone look.
+ */
+html.light .gradient-text {
+  background-image: linear-gradient(
+    to right,
+    rgb(var(--theme-red-800)) 0%,
+    rgb(var(--theme-red-700)) 50%,
+    rgb(146 64 14) 100%
+  );
+  filter: none;
+}
+
+/* Keep light-theme section headings neutral and readable. Only the portfolio
+   owner's name in the hero stays crimson. */
+html.light .section-title .gradient-text {
+  background-image: none;
+  color: rgb(var(--theme-heading));
+  -webkit-text-fill-color: rgb(var(--theme-heading));
+  filter: none;
+}
+
+html.light .gradient-text-red {
+  background-image: linear-gradient(
+    to right,
+    rgb(var(--theme-red-800)) 0%,
+    rgb(var(--theme-red-700)) 55%,
+    rgb(var(--theme-red-500)) 100%
+  );
+  filter: none;
+}
+
+/* The hero name applies its gradient with raw utilities rather than
+   `.gradient-text`, so it needs the same treatment to match. */
+html.light .hero-title-name {
+  background-image: linear-gradient(
+    to right,
+    rgb(var(--theme-red-800)) 0%,
+    rgb(var(--theme-red-700)) 50%,
+    rgb(var(--theme-red-600)) 100%
+  );
+}
+
+/*
+ * In light mode `border-red-950` resolves to a near-white pink (1.1:1 against
+ * white), which erases the outline on inputs, chips, cards and the footer rule.
+ * Reinstate a visible hairline.
+ *
+ * `:not([class*="border-transparent"])` guards the nav links that only grow a
+ * red-950 border on hover -- they must stay transparent at rest.
+ */
+html.light [class*="border-red-950"]:not([class*="border-transparent"]) {
+  border-color: rgb(248, 113, 113);
+}
+
+html.light [class*="hover:border-red-950"]:hover {
+  border-color: rgb(248, 113, 113);
+}
+
+/*
+ * Form controls are identified by their outline alone, so they need a stronger
+ * boundary than a decorative card (WCAG 1.4.11). Scoped to inputs so the rest
+ * of the page keeps the softer hairline.
+ */
+html.light input[class*="border-red-950"],
+html.light textarea[class*="border-red-950"],
+html.light select[class*="border-red-950"] {
+  border-color: rgb(239, 68, 68);
+}
+
 html.light .glass-card,
 html.light .project-card,
 html.light .skill-card {
   background-color: rgba(255, 255, 255, 0.85);
-  border-color: rgba(252, 165, 165, 0.75);
+  border-color: rgb(248, 113, 113);
   box-shadow:
     0 12px 35px -18px rgba(127, 29, 29, 0.28),
     0 2px 8px rgba(0, 0, 0, 0.04);
@@ -581,7 +732,103 @@ html.light .skill-card {
 html.light .glass-card:hover,
 html.light .project-card:hover,
 html.light .skill-card:hover {
-  border-color: rgba(239, 68, 68, 0.6);
+  border-color: rgb(239, 68, 68);
+}
+
+/* ─── Neon Theme ─── */
+html.neon [class*="border-red-950"]:not([class*="border-transparent"]),
+html.neon [class*="hover:border-red-950"]:hover {
+  border-color: rgb(var(--theme-red-500) / 0.55);
+}
+
+html.neon input[class*="border-red-950"],
+html.neon textarea[class*="border-red-950"],
+html.neon select[class*="border-red-950"] {
+  border-color: rgb(var(--theme-red-500) / 0.75);
+}
+
+html.neon .glass-card,
+html.neon .project-card,
+html.neon .skill-card {
+  background-color: rgb(10 1 2 / 0.86);
+  border-color: rgb(var(--theme-red-500) / 0.45);
+  box-shadow:
+    0 0 24px -12px rgba(255, 0, 60, 0.75),
+    inset 0 0 24px -20px rgba(255, 31, 61, 0.65);
+}
+
+html.neon .glass-card:hover,
+html.neon .project-card:hover,
+html.neon .skill-card:hover {
+  border-color: rgb(var(--theme-red-400));
+  box-shadow:
+    0 0 32px -8px rgba(255, 0, 60, 0.9),
+    inset 0 0 26px -18px rgba(255, 31, 61, 0.9);
+}
+
+html.neon .hero-title,
+html.neon .section-title {
+  color: rgb(var(--theme-heading));
+  text-shadow:
+    0 0 5px rgba(255, 255, 255, 0.35),
+    0 0 18px rgba(255, 0, 60, 0.95),
+    0 0 48px rgba(255, 0, 60, 0.55);
+}
+
+html.neon .hero-title::before {
+  color: #ff1f3d;
+}
+
+html.neon .hero-title::after,
+html.neon .section-title::before {
+  color: #ff8fa2;
+}
+
+html.neon .section-title::after {
+  color: #ff003c;
+}
+
+html.neon .hero-title-name {
+  background-image: linear-gradient(
+    to right,
+    #ff9aab 0%,
+    #ff1f3d 45%,
+    #ff5c72 100%
+  );
+  filter: drop-shadow(0 0 12px rgba(255, 0, 60, 0.85));
+}
+
+html.neon .section-title .gradient-text {
+  background-image: linear-gradient(
+    to right,
+    #ff1f3d 0%,
+    #ff6b7e 50%,
+    #ffd0d7 100%
+  );
+  filter: drop-shadow(0 0 12px rgba(255, 0, 60, 0.8));
+}
+
+html.neon .btn-primary {
+  box-shadow:
+    0 0 18px -4px rgba(255, 0, 60, 0.95),
+    inset 0 0 14px -8px rgba(255, 255, 255, 0.9);
+}
+
+html.neon .btn-outline {
+  box-shadow:
+    0 0 14px -6px rgba(255, 0, 60, 0.7),
+    inset 0 0 12px -10px rgba(255, 31, 61, 0.9);
+}
+
+html.neon .bg-cyber-grid {
+  background-image:
+    linear-gradient(rgba(255, 0, 60, 0.12) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 0, 60, 0.12) 1px, transparent 1px);
+}
+
+html.neon ::-webkit-scrollbar-thumb:hover {
+  background: #ff1f3d;
+  box-shadow: 0 0 12px rgba(255, 0, 60, 0.95);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -595,5 +842,19 @@ html.light .skill-card:hover {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+  }
+}
+
+/* ─── Chat assistant ─── */
+@keyframes chatTyping {
+  0%,
+  60%,
+  100% {
+    opacity: 0.25;
+    transform: translateY(0);
+  }
+  30% {
+    opacity: 1;
+    transform: translateY(-3px);
   }
 }
