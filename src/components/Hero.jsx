@@ -14,10 +14,10 @@ export default function Hero({ profileImage, onOpenPhotoModal }) {
     >
       {/* Background 3D Cyber Grids & Crimson Ambient Lights */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        {/* Ambient blood red glows */}
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full bg-red-600/15 blur-[120px] animate-pulse" />
-        <div className="absolute bottom-1/4 right-1/4 w-80 h-80 rounded-full bg-rose-600/15 blur-[120px] animate-pulse [animation-delay:2s]" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] rounded-full bg-red-950/20 blur-[150px]" />
+        {/* Ambient blood red glows — static, no animation for smoothness */}
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full bg-red-600/12 blur-[120px]" />
+        <div className="absolute bottom-1/4 right-1/4 w-80 h-80 rounded-full bg-rose-600/12 blur-[120px]" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] rounded-full bg-red-950/18 blur-[150px]" />
 
         {/* 3D Cyber Grid */}
         <div
@@ -59,10 +59,10 @@ export default function Hero({ profileImage, onOpenPhotoModal }) {
         {/* 3D Floating Name */}
         <div className="perspective-1000 mb-4">
           <h1
-            className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black text-white tracking-tight leading-none preserve-3d animate-float-3d"
+            className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black text-white tracking-tight leading-none"
             style={{
               textShadow:
-                "0 2px 0 #991b1b, 0 4px 0 #7f1d1d, 0 6px 0 #450a0a, 0 8px 0 #200000, 0 0 35px rgba(239, 68, 68, 0.65)",
+                "0 2px 0 #991b1b, 0 4px 0 #7f1d1d, 0 6px 0 #450a0a, 0 0 30px rgba(239, 68, 68, 0.55)",
             }}
           >
             Hi, I'm{" "}

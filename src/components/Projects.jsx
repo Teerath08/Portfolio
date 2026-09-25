@@ -107,18 +107,6 @@ export default function Projects() {
           ))}
         </div>
 
-        {/* GitHub CTA */}
-        <div className="mt-14 text-center">
-          <a
-            href="https://github.com/Teerath08"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="btn-outline inline-flex items-center gap-2"
-          >
-            <GitBranch size={18} />
-            See All Repositories on GitHub
-          </a>
-        </div>
       </div>
     </section>
   );

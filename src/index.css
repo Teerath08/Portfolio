@@ -17,7 +17,7 @@
       radial-gradient(circle at 50% 0%, rgba(185, 28, 28, 0.18) 0%, transparent 60%),
       radial-gradient(circle at 10% 40%, rgba(127, 29, 29, 0.12) 0%, transparent 50%),
       radial-gradient(circle at 90% 70%, rgba(153, 27, 27, 0.15) 0%, transparent 50%);
-    background-attachment: fixed;
+    /* background-attachment:fixed causes continuous repaints — removed for smoothness */
   }
 
   ::-webkit-scrollbar {
@@ -68,15 +68,15 @@
     display: inline-flex;
     flex-direction: column;
     align-items: center;
-    transform-style: preserve-3d;
-    animation: float3D 6s ease-in-out infinite;
-    cursor: pointer;
+    /* Removed infinite float animation — was causing jank */
+    cursor: default;
     transition: transform 0.3s ease, filter 0.3s ease;
+    will-change: transform;
   }
 
   .floating-3d-heading:hover {
-    filter: drop-shadow(0 0 25px rgba(239, 68, 68, 0.7));
-    transform: perspective(1000px) translateY(-6px) rotateX(8deg) scale(1.03);
+    filter: drop-shadow(0 0 20px rgba(239, 68, 68, 0.6));
+    transform: translateY(-3px) scale(1.01);
   }
 
   .section-title {
