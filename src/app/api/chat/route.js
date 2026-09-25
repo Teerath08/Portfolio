@@ -250,7 +250,20 @@ export async function GET() {
   return json({ ok: true, aiEnabled: Boolean(process.env.GEMINI_API_KEY), model: MODEL });
 }
 
+let warnedNoKey = false;
+
 export async function POST(request) {
+  // A missing key is the single most likely reason a deployed chatbot is
+  // stuck in offline mode, and it is invisible from the page itself. Say it
+  // once per instance so it turns up in the host's logs.
+  if (!process.env.GEMINI_API_KEY && !warnedNoKey) {
+    warnedNoKey = true;
+    console.warn(
+      "[chat] GEMINI_API_KEY is not set, so Vegapunk is answering from the offline " +
+        "knowledge base. Add it to this deployment's environment variables.",
+    );
+  }
+
   const clientKey =
     request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
     request.headers.get("x-real-ip") ||

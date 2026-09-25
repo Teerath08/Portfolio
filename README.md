@@ -70,17 +70,27 @@ silent.
 
 `npm run dev` is for local work only — it stops when you close it, and the key
 in `.env` stays on your machine. To keep Vegapunk online you need to deploy the
-site and put the key in the host's environment:
+site and put the key in the host's environment.
 
-1. Commit and push the code. `.env` is gitignored, so the key stays local.
+**The key cannot travel through git.** `.env` is gitignored, so pushing the
+repo never carries it. It also must not be pasted into `vercel.json` or any
+other committed file — that would publish it. It has to be set on the host:
+
+1. Commit and push the code.
 2. Import the repo into Vercel (a `vercel.json` is already present).
-3. In Vercel, add the environment variable for the production deployment:
+3. In Vercel, add the environment variable for the **Production** environment:
    - `GEMINI_API_KEY` — the same value from your local `.env`
-4. Redeploy. No rebuild of the key is needed; it is read at request time.
+4. Redeploy. The key is read at request time, so no rebuild of it is needed.
 
-Check it with `https://your-domain/api/chat` — a JSON reply means the key
-reached the server. If it reports `aiEnabled: false`, the variable is missing
-from that environment.
+Run `npm run check:chat-env` before deploying. It confirms the key is present
+locally and reminds you that the host needs its own copy.
+
+Check the deployed result by opening `https://your-domain/api/chat`:
+
+- `{"ok":true,"aiEnabled":true,...}` — working.
+- `"aiEnabled":false` — the variable is missing from that environment. The
+  server also logs `[chat] GEMINI_API_KEY is not set...` once per instance,
+  which is the fastest way to confirm it from the Vercel logs.
 
 Two things to know about the deployed version:
 
