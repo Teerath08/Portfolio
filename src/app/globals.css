@@ -39,15 +39,21 @@
   color-scheme: dark;
 }
 
+/*
+ * Light theme inverts the ramp on purpose:
+ *   zinc 50–600  -> text tones (dark, so they read on the light background)
+ *   zinc 700–950 -> surface tones (light, for card/chip backgrounds)
+ * The two halves meet around 600/700, so text and surfaces never collide.
+ */
 html.light {
   --theme-background: 250 250 250;
   --theme-foreground: 24 24 27;
-  --theme-zinc-50: 255 255 255;
-  --theme-zinc-100: 250 250 250;
-  --theme-zinc-200: 244 244 245;
-  --theme-zinc-300: 228 228 231;
+  --theme-zinc-50: 24 24 27;
+  --theme-zinc-100: 39 39 42;
+  --theme-zinc-200: 63 63 70;
+  --theme-zinc-300: 82 82 91;
   --theme-zinc-400: 82 82 91;
-  --theme-zinc-500: 113 113 122;
+  --theme-zinc-500: 108 108 114;
   --theme-zinc-600: 82 82 91;
   --theme-zinc-700: 161 161 170;
   --theme-zinc-800: 212 212 216;
@@ -558,12 +564,24 @@ html.light .section-title {
     0 0 20px rgba(220, 38, 38, 0.2);
 }
 
+/*
+ * In light mode `border-red-950` resolves to a near-white pink, so cards would
+ * lose their outline. Reinstate the surface + border explicitly.
+ */
 html.light .glass-card,
 html.light .project-card,
 html.light .skill-card {
+  background-color: rgba(255, 255, 255, 0.85);
+  border-color: rgba(252, 165, 165, 0.75);
   box-shadow:
     0 12px 35px -18px rgba(127, 29, 29, 0.28),
     0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+html.light .glass-card:hover,
+html.light .project-card:hover,
+html.light .skill-card:hover {
+  border-color: rgba(239, 68, 68, 0.6);
 }
 
 @media (prefers-reduced-motion: reduce) {

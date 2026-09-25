@@ -22,6 +22,8 @@ const themeScript = `
     root.style.colorScheme = theme;
     root.classList.toggle("light", theme === "light");
     root.classList.toggle("dark", theme === "dark");
+    var meta = document.querySelector('meta[name="theme-color"]');
+    if (meta) meta.setAttribute("content", theme === "light" ? "#fafafa" : "#030303");
   } catch (error) {
     document.documentElement.dataset.theme = "dark";
   }
@@ -62,10 +64,7 @@ export const metadata = {
 export const viewport = {
   width: "device-width",
   initialScale: 1,
-  themeColor: [
-    { media: "(prefers-color-scheme: dark)", color: "#030303" },
-    { media: "(prefers-color-scheme: light)", color: "#fafafa" },
-  ],
+  themeColor: "#030303",
 };
 
 export default function RootLayout({ children }) {
