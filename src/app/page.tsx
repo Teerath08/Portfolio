@@ -10,7 +10,6 @@ import Projects from "@/components/sections/Projects";
 import Skills from "@/components/sections/Skills";
 
 import BootOverlay from "@/components/layout/BootOverlay";
-import CustomCursor from "@/components/layout/CustomCursor";
 import Footer from "@/components/layout/Footer";
 import Navbar from "@/components/layout/Navbar";
 import ScrollField from "@/components/layout/ScrollField";
@@ -23,8 +22,8 @@ import PortfolioChat from "@/components/chat/PortfolioChat";
  *
  * A server component, and deliberately so: every section below renders on the
  * server and ships as HTML. The client bundle is only the pieces that need a
- * browser — the navbar, the 3D layers, the theme toggle, the cursor, the chat
- * assistant and the small interactive cards.
+ * browser — the navbar, the 3D layers, the theme toggle, the chat assistant and
+ * the small interactive cards.
  *
  * `PhotoProvider` wraps everything because the avatar appears in the navbar, the
  * hero and the About section, and none of them should own that state.
@@ -60,7 +59,6 @@ export default function HomePage() {
       {/* Persistent utilities. */}
       <SectionRail />
       <PortfolioChat />
-      <CustomCursor />
       <BootOverlay />
     </PhotoProvider>
   );

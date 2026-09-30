@@ -618,8 +618,7 @@
   }
 
   .no-print,
-  header,
-  [data-cursor-layer] {
+  header {
     display: none !important;
   }
 
