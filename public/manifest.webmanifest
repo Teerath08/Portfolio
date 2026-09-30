@@ -1,0 +1,18 @@
+{
+  "name": "Teerath Jangid — Portfolio",
+  "short_name": "Teerath",
+  "description": "B.Tech ECE student working on microcontrollers, sensors, robotics and the web software that puts them on screen.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#05080b",
+  "theme_color": "#05080b",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

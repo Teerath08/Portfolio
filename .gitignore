@@ -11,6 +11,9 @@ build/
 # Next.js generated files
 next-env.d.ts
 
+# TypeScript incremental build cache
+*.tsbuildinfo
+
 # Vercel & OS temporary files
 .vercel
 .DS_Store
