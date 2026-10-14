@@ -3,7 +3,7 @@
  *
  * Content and presentation are deliberately separated: nothing in this folder
  * imports React or touches the DOM, so the same data can be consumed by server
- * components, client components and the chatbot knowledge base.
+ * components and client components alike.
  */
 
 /** Every anchor that exists on the page. Kept in sync with `site.sections`. */

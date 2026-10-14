@@ -16,13 +16,13 @@ export const labNotes: LabNote[] = [
     id: "always-replies",
     index: "01",
     title: "A chatbot that cannot go silent",
-    rig: "/api/chat · bundled knowledge base",
+    rig: "custom endpoint · bundled knowledge base",
     problem:
-      "The free model endpoint returns 503 \"high demand\" often enough that a visitor could easily have met an empty reply bubble.",
+      "The free model endpoint returned 503 \"high demand\" often enough that a visitor could easily have met an empty reply bubble.",
     experiment:
-      "Built a keyword-matched knowledge base out of the site's own content, shipped it to the browser, and made the server fall back to it on any failure, timeout or refusal.",
+      "Built a keyword-matched knowledge base out of the site's own content, shipped it to the browser, and made the server fall back to it on any failure, timeout or refusal. A hosted webchat replaced it later, once the idea was proven.",
     result:
-      "The assistant always answers. If the server can't be reached at all it replies from the local copy and the header switches to \"Offline mode\" instead of showing an error.",
+      "The assistant always answered. If the server could not be reached at all it replied from the local copy rather than showing an error.",
     learned:
       "Designing the failure path first made the happy path trivial. The fallback stopped being a safety net and became the main path.",
     tags: ["Web", "Resilience", "Shipped"],

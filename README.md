@@ -3,7 +3,7 @@
 A personal portfolio built with Next.js (App Router), TypeScript, Tailwind CSS
 and React Three Fiber. It covers embedded systems and robotics work, carries a
 set of persistent themes, includes an in-browser profile photo editor, and
-ships an AI assistant ("Vegapunk") that answers from the site's own content.
+ships a floating AI chat assistant powered by Botpress Webchat.
 
 ## Stack
 
@@ -14,19 +14,19 @@ ships an AI assistant ("Vegapunk") that answers from the site's own content.
 - Framer Motion (reveals and micro-interactions)
 - Lucide React for icons; brand marks are hand-rolled in `src/components/ui/BrandIcons.tsx`
 - react-easy-crop for the profile photo editor
+- Botpress Webchat for the portfolio assistant
 
 ## Layout of the source
 
 ```
 src/
-  app/            routes only — layout, page, chat API, OG image, robots, sitemap
-  chat/           the assistant's knowledge base and intent matching
+  app/            routes only — layout, page, OG image, robots, sitemap
   components/
-    layout/       navbar, footer, theme toggle, boot overlay, section rail
+    layout/       navbar, footer, theme toggle, boot overlay, scroll field
     hero/         the 3D board scene and its static SVG fallback
     sections/     one file per section, in page order
     ui/           small reusable primitives (reveal, magnetic, icons, cards)
-    chat/         the assistant widget
+    chat/         the Botpress webchat loader
   data/           all portfolio content, one module per topic
   lib/            hooks, theme tokens, motion easings, small helpers
 ```
@@ -73,96 +73,43 @@ during hydration.
 
 ## Portfolio assistant
 
-A floating chat widget (bottom-right) runs **Vegapunk**, the site's AI assistant.
-Vegapunk knows this portfolio in detail and will also just talk about anything
-else you throw at him.
+A floating chat widget (bottom-right) is provided by **Botpress Webchat**. The
+bot itself — its knowledge, avatar, welcome copy and feature flags — is
+configured and trained in Botpress Cloud, not in this repository, so the site
+only carries the two-script embed.
 
-- `src/app/api/chat/route.ts` — the endpoint, and where Vegapunk's personality
-  lives. The system prompt gives him the portfolio content as grounding, lets
-  him converse freely on everything else, and tells him never to invent
-  portfolio facts. The key is read here, server-side only.
-- `src/chat/knowledge.ts` — the offline fallback. A keyword-matched knowledge
-  base that answers from `src/data/` alone.
-- `src/components/chat/PortfolioChat.tsx` — the widget UI.
-- `public/vegapunk.jpg` — his avatar, served locally rather than hotlinked.
+- `src/components/chat/BotpressChat.tsx` — loads the embed. Botpress ships a
+  `inject.js` loader that defines `window.botpress`, plus a generated config
+  bundle that calls `window.botpress.init({ ... })`. The two are dependent, so
+  the loader is loaded first and the config is chained off its `onLoad` event:
+  the config cannot run before `window.botpress` exists. Chaining also makes the
+  load idempotent, so a remount cannot initialise the widget twice.
+- The config URL is the source of truth for the bot. Change the bot in Botpress
+  and the site picks it up on the next load — no code change or redeploy.
+- The widget presents the assistant as **Vegapunk**. The generated config does
+  not carry a `botName`, so `BotpressChat.tsx` sets it through the public API
+  once the widget has initialised (`window.botpress.config()`, which deep-merges
+  into the live configuration). Every other value still comes from the remote
+  config.
 
-### Enabling conversation
+There is no chat API route, no API key and no environment variable to manage.
+The endpoint that used to back a hand-rolled assistant has been removed.
 
-Free-form chat needs a key, so add one to `.env`:
+To point the site at a different bot, replace the config URL in
+`BotpressChat.tsx` with the one from Botpress Studio → Webchat → Deploy
+Settings.
 
-```bash
-GEMINI_API_KEY=your_key_here   # https://aistudio.google.com/apikey
-```
+## Deploying
 
-**Use a plain `GEMINI_API_KEY`.** A `NEXT_PUBLIC_`-prefixed variable is inlined
-into the client bundle and is readable by every visitor.
-
-Set `GEMINI_MODEL` to override the model. The default is
-`gemini-flash-lite-latest`, chosen deliberately: the free tier serves the
-larger Flash model unreliably (503 "high demand"), while the lite tier has been
-consistently available. Avoid pinned names such as `gemini-2.5-flash` — Google
-has retired them and they now return 404.
-
-### Free-tier behaviour worth knowing
-
-Google's free tier is genuinely flaky, so the endpoint retries on 429, 503 and
-5xx before giving up and answering from the offline knowledge base. A refusal
-or an empty completion is *not* retried, since retrying those just burns quota.
-
-The widget also works with no server at all: the knowledge base is bundled into
-the browser, so if `/api/chat` cannot be reached the bot answers locally and
-the header switches to "Offline mode" instead of showing an error. It cannot go
-silent.
-
-### Behaviour worth knowing
-
-- Portfolio facts are grounded in `src/data/`, so editing your content updates
-  what Vegapunk knows with no second place to maintain.
-- Out-of-scope questions get an honest "I don't know" instead of an invented
-  answer. The same applies to anything not listed on the site.
-- Replies that map to a page section show a "Jump to" button. Casual chat does
-  not.
-- The endpoint is rate limited to 20 messages per minute per IP.
-- If the Gemini call fails or times out, it falls back to the offline knowledge
-  base, so the widget always replies.
-
-### Deploying so it runs continuously
-
-`npm run dev` is for local work only — it stops when you close it, and the key
-in `.env` stays on your machine. To keep Vegapunk online you need to deploy the
-site and put the key in the host's environment.
-
-**The key cannot travel through git.** `.env` is gitignored, so pushing the
-repo never carries it. It also must not be pasted into `vercel.json` or any
-other committed file — that would publish it. It has to be set on the host:
+`npm run dev` is for local work only. To put the site online:
 
 1. Commit and push the code.
 2. Import the repo into Vercel (a `vercel.json` is already present).
-3. In Vercel, add the environment variables for the **Production** environment:
-   - `GEMINI_API_KEY` — the same value from your local `.env`
-   - `NEXT_PUBLIC_SITE_URL` — the deployed origin, e.g.
-     `https://your-domain.com`. Used for canonical links, the sitemap, robots
-     and social share URLs. Defaults to `localhost:3000` if unset.
-4. Redeploy. The key is read at request time, so no rebuild of it is needed.
-
-Run `npm run check:chat-env` before deploying. It confirms the key is present
-locally and reminds you that the host needs its own copy.
-
-Check the deployed result by opening `https://your-domain/api/chat`:
-
-- `{"ok":true,"aiEnabled":true,...}` — working.
-- `"aiEnabled":false` — the variable is missing from that environment. The
-  server also logs `[chat] GEMINI_API_KEY is not set...` once per instance,
-  which is the fastest way to confirm it from the Vercel logs.
-
-Two things to know about the deployed version:
-
-- The rate limiter is in-memory and per instance, so on a serverless host the
-  20/minute cap applies per instance rather than globally. It is a speed bump
-  against abuse, not a security control.
-- Free Gemini keys have per-minute and per-day request ceilings. When one is
-  hit, the endpoint answers from the offline knowledge base instead of failing,
-  so visitors see a working bot in a limited mode rather than an error.
+3. In Vercel, add `NEXT_PUBLIC_SITE_URL` for the **Production** environment —
+   the deployed origin, e.g. `https://your-domain.com`. It is used for canonical
+   links, the sitemap, robots and social share URLs, and falls back to
+   `localhost:3000` if unset.
+4. Redeploy.
 
 ## Development
 
@@ -187,13 +134,13 @@ npm start
 Portfolio content is stored in `src/data/`, one module per topic
 (`projects.ts`, `skills.ts`, `hardware.ts`, `experience.ts`, `education.ts`,
 `labNotes.ts`, `personal.ts`). The page composes sections from
-`src/app/page.tsx`; the section list in `src/data/site.ts` drives the navbar,
-the section rail and the footer together.
+`src/app/page.tsx`; the section list in `src/data/site.ts` drives the navbar and
+the footer together.
 
 Where something genuinely isn't known yet — a certification, an internship, a
 lab measurement — the entry is present and marked `placeholder: true`. The
 sections render it as a visible "open slot" rather than hiding it or inventing
-a result, and the chatbot reports those buckets as "none listed yet".
+a result.
 
 `skills.ts` is the exception: it lists only the two domains this portfolio has
 always claimed, **Robotics** and **Microprocessor**, with the owner's own words.

@@ -14,7 +14,7 @@ import Footer from "@/components/layout/Footer";
 import Navbar from "@/components/layout/Navbar";
 import ScrollField from "@/components/layout/ScrollField";
 import { PhotoProvider } from "@/components/layout/PhotoProvider";
-import PortfolioChat from "@/components/chat/PortfolioChat";
+import BotpressChat from "@/components/chat/BotpressChat";
 
 /**
  * The page.
@@ -56,7 +56,7 @@ export default function HomePage() {
       <Footer />
 
       {/* Persistent utilities. */}
-      <PortfolioChat />
+      <BotpressChat />
       <BootOverlay />
     </PhotoProvider>
   );

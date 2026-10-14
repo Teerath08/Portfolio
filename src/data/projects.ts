@@ -37,12 +37,12 @@ export const projects: Project[] = [
       {
         label: "Shipped",
         value:
-          "Static-rendered pages, a floating chat assistant that answers from a bundled knowledge base, and a client-side avatar editor that needs no backend at all.",
+          "Static-rendered pages, a floating AI chat assistant, and a client-side avatar editor that needs no backend at all.",
       },
       {
         label: "Learned",
         value:
-          "Designing the assistant to answer locally first meant it never went silent, even when the free API tier was down. Planning the failure path first was the whole lesson.",
+          "A hand-rolled assistant taught me the failure paths, but a hosted one removed the upkeep. Knowing when to stop building your own is a skill too.",
       },
       {
         label: "Keep an eye on",
