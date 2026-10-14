@@ -156,5 +156,3 @@ export const hardwareCategories = [
   { id: "connect", label: "Connectivity" },
   { id: "bench", label: "Bench" },
 ] as const;
-
-export type HardwareCategoryId = (typeof hardwareCategories)[number]["id"];

@@ -3,8 +3,7 @@
 import type { ReactNode } from "react";
 import { motion } from "framer-motion";
 import { usePrefersReducedMotion } from "@/lib/hooks";
-import { cardIn, revealViewport } from "@/lib/motion";
-import { cn } from "@/lib/cn";
+import { revealViewport } from "@/lib/motion";
 
 interface RevealProps {
   children: ReactNode;
@@ -45,61 +44,6 @@ export default function Reveal({
         delay: reduced ? 0 : delay,
         ease: [0.16, 1, 0.3, 1],
       }}
-    >
-      {children}
-    </Component>
-  );
-}
-
-/**
- * The same reveal, for a list whose children should cascade.
- *
- * The parent animates only its own opacity; each `<RevealItem>` handles its own
- * movement, which keeps the staggering working even when items mount lazily.
- */
-export function RevealGroup({
-  children,
-  className,
-  as = "div",
-}: {
-  children: ReactNode;
-  className?: string;
-  as?: "div" | "ul" | "section";
-}) {
-  const Component = motion[as];
-  return (
-    <Component
-      className={className}
-      initial="hidden"
-      whileInView="show"
-      viewport={revealViewport}
-      variants={{ hidden: {}, show: { transition: { staggerChildren: 0.07 } } }}
-    >
-      {children}
-    </Component>
-  );
-}
-
-export function RevealItem({
-  children,
-  className,
-  as = "div",
-}: {
-  children: ReactNode;
-  className?: string;
-  as?: "div" | "li" | "article";
-}) {
-  const reduced = usePrefersReducedMotion();
-  const Component = motion[as];
-
-  return (
-    <Component
-      className={cn(className)}
-      variants={
-        reduced
-          ? { hidden: { opacity: 0 }, show: { opacity: 1, transition: { duration: 0.25 } } }
-          : cardIn
-      }
     >
       {children}
     </Component>

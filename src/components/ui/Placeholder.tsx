@@ -47,15 +47,3 @@ export default function Placeholder({ title, hint, children, className }: Placeh
     </div>
   );
 }
-
-/** Compact inline variant, for a single line inside an existing list. */
-export function PlaceholderChip({ label }: { label: string }) {
-  return (
-    <span className="chip border-dashed border-accent/30 text-dim">
-      <span aria-hidden="true" className="text-accent/70">
-        +
-      </span>
-      {label}
-    </span>
-  );
-}

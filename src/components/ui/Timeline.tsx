@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef } from "react";
-import { motion, useReducedMotion, useScroll, useSpring } from "framer-motion";
+import { motion, useScroll, useSpring } from "framer-motion";
 import {
   Award,
   GraduationCap,
@@ -15,6 +15,7 @@ import { timeline } from "@/data";
 import type { TimelineKind } from "@/data/types";
 import { accentHex } from "@/lib/accents";
 import { easeOut } from "@/lib/motion";
+import { usePrefersReducedMotion } from "@/lib/hooks";
 import { cn } from "@/lib/cn";
 
 /**
@@ -73,7 +74,7 @@ const KINDS: Record<
  */
 export default function Timeline() {
   const listRef = useRef<HTMLOListElement>(null);
-  const reduced = useReducedMotion();
+  const reduced = usePrefersReducedMotion();
 
   const { scrollYProgress } = useScroll({
     target: listRef,

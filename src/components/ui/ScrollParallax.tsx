@@ -1,8 +1,9 @@
 "use client";
 
 import type { ReactNode } from "react";
-import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 
+import { usePrefersReducedMotion } from "@/lib/hooks";
 import { cn } from "@/lib/cn";
 
 /**
@@ -44,7 +45,7 @@ export default function ScrollParallax({
   span = 900,
   className,
 }: ScrollParallaxProps) {
-  const reduced = useReducedMotion();
+  const reduced = usePrefersReducedMotion();
   const { scrollY } = useScroll();
 
   // Declared unconditionally so the hook order is identical between the reduced

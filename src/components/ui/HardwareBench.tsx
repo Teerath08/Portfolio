@@ -1,11 +1,12 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
 
 import { hardwareCategories, hardwareComponents } from "@/data/hardware";
 import type { HardwareComponent } from "@/data/types";
 import { accent, accentHex } from "@/lib/accents";
+import { usePrefersReducedMotion } from "@/lib/hooks";
 import { cn } from "@/lib/cn";
 
 /**
@@ -22,7 +23,7 @@ import { cn } from "@/lib/cn";
  */
 export default function HardwareBench() {
   const [selectedId, setSelectedId] = useState<string>(hardwareComponents[0].id);
-  const reduced = useReducedMotion();
+  const reduced = usePrefersReducedMotion();
 
   const selected = useMemo(
     () => hardwareComponents.find((item) => item.id === selectedId) ?? hardwareComponents[0],

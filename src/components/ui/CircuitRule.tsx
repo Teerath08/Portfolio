@@ -40,26 +40,3 @@ export default function CircuitRule({ className }: { className?: string }) {
     </div>
   );
 }
-
-/**
- * The same idea vertically — a trace that runs down the side of a panel.
- */
-export function CircuitSpine({ className }: { className?: string }) {
-  return (
-    <svg
-      viewBox="0 0 24 400"
-      preserveAspectRatio="none"
-      className={cn("h-full w-full text-accent/30", className)}
-      fill="none"
-      aria-hidden="true"
-    >
-      <path
-        d="M12 0 V90 L4 104 V210 L12 224 V320 L6 334 V400"
-        stroke="currentColor"
-        strokeWidth="1"
-        strokeDasharray="6 5"
-        className="animate-dash-flow"
-      />
-    </svg>
-  );
-}

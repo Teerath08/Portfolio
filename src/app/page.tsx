@@ -13,7 +13,6 @@ import BootOverlay from "@/components/layout/BootOverlay";
 import Footer from "@/components/layout/Footer";
 import Navbar from "@/components/layout/Navbar";
 import ScrollField from "@/components/layout/ScrollField";
-import SectionRail from "@/components/layout/SectionRail";
 import { PhotoProvider } from "@/components/layout/PhotoProvider";
 import PortfolioChat from "@/components/chat/PortfolioChat";
 
@@ -57,7 +56,6 @@ export default function HomePage() {
       <Footer />
 
       {/* Persistent utilities. */}
-      <SectionRail />
       <PortfolioChat />
       <BootOverlay />
     </PhotoProvider>

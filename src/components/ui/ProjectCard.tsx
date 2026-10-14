@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useRef, useState } from "react";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
 import { ArrowUpRight, ChevronDown, Layers } from "lucide-react";
 
 import type { Project } from "@/data/types";
@@ -9,7 +9,7 @@ import { accent, accentHex } from "@/lib/accents";
 import Blueprint from "@/components/ui/Blueprint";
 import Placeholder from "@/components/ui/Placeholder";
 import SignalFlow from "@/components/ui/SignalFlow";
-import { useFinePointer } from "@/lib/hooks";
+import { useFinePointer, usePrefersReducedMotion } from "@/lib/hooks";
 import { cn } from "@/lib/cn";
 
 const SPEC_LABELS: Record<string, string> = {
@@ -47,7 +47,7 @@ export default function ProjectCard({ project, index }: { project: Project; inde
   const cardRef = useRef<HTMLDivElement>(null);
   const frame = useRef(0);
   const finePointer = useFinePointer();
-  const reduced = useReducedMotion();
+  const reduced = usePrefersReducedMotion();
   const tiltEnabled = finePointer && !reduced;
 
   const tokens = accent(project.accent);

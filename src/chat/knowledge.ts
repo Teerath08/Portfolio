@@ -36,8 +36,6 @@ export const CHAT_SECTIONS = [
   "contact",
 ] as const;
 
-export type ChatSection = (typeof CHAT_SECTIONS)[number];
-
 export interface ChatReply {
   reply: string;
   /** Anchor to offer as a "take me there" button. */

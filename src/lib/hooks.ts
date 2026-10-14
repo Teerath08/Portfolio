@@ -176,39 +176,6 @@ export function useActiveSection(ids: readonly string[], rootMargin = "-45% 0px 
   return active;
 }
 
-/**
- * True while the returned ref's element intersects the viewport.
- *
- * The observer is disconnected once it has fired, so long sections do not keep
- * a live observer alive for the rest of the session.
- */
-export function useInView<T extends HTMLElement>(options?: IntersectionObserverInit) {
-  const ref = useRef<T | null>(null);
-  const [inView, setInView] = useState(false);
-
-  useEffect(() => {
-    const node = ref.current;
-    if (!node || typeof IntersectionObserver === "undefined") {
-      setInView(true);
-      return;
-    }
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setInView(true);
-          observer.disconnect();
-        }
-      },
-      { rootMargin: "-10% 0px -10% 0px", threshold: 0.05, ...options },
-    );
-
-    observer.observe(node);
-    return () => observer.disconnect();
-  }, [options]);
-
-  return [ref, inView] as const;
-}
 
 /**
  * Runs a callback on every animation frame while the element is on screen.

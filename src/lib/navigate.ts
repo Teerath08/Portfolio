@@ -32,9 +32,3 @@ export function navigateToSection(targetId: string): void {
   const top = window.scrollY + target.getBoundingClientRect().top - NAV_OFFSET;
   window.scrollTo({ top: Math.max(0, top), behavior: "smooth" });
 }
-
-/** Scrolls back to the very top of the document. */
-export function scrollToTop(): void {
-  if (typeof window === "undefined") return;
-  window.scrollTo({ top: 0, behavior: "smooth" });
-}
