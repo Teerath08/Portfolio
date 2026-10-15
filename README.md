@@ -84,6 +84,12 @@ only carries the two-script embed.
   the loader is loaded first and the config is chained off its `onLoad` event:
   the config cannot run before `window.botpress` exists. Chaining also makes the
   load idempotent, so a remount cannot initialise the widget twice.
+- Loading stays off the critical path. `inject.js` is ~1.7 MB, so it loads
+  `afterInteractive` — it never blocks paint — while both scripts are preloaded
+  (`next/script` hints the loader; `BotpressChat` calls React's `preload` for the
+  config) and the root layout preconnects to the two CDNs and the webchat API.
+  The URLs live in `src/lib/botpress.ts` so the component and the layout share
+  one source.
 - The config URL is the source of truth for the bot. Change the bot in Botpress
   and the site picks it up on the next load — no code change or redeploy.
 - The widget presents the assistant as **Vegapunk**. The generated config does

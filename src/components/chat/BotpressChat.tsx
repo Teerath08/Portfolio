@@ -1,14 +1,21 @@
 "use client";
 
+import { preload } from "react-dom";
 import Script from "next/script";
+
+import {
+  BOTPRESS_BOT_NAME,
+  BOTPRESS_CONFIG_SRC,
+  BOTPRESS_INJECT_SRC,
+} from "@/lib/botpress";
 
 /**
  * Botpress Webchat.
  *
- * Replaces the hand-rolled "Vegapunk" assistant. The two URLs below are the
- * standard Botpress embed, kept in the same order the snippet ships them in:
- * `inject.js` builds the widget and defines `window.botpress`, and the second
- * script is an `init({...})` call against it.
+ * Replaces the hand-rolled "Vegapunk" assistant. The URLs come from
+ * `@/lib/botpress` and are the standard embed, kept in the order the snippet
+ * ships them in: `inject.js` builds the widget and defines `window.botpress`,
+ * and the second script is an `init({...})` call against it.
  *
  * In the plain snippet the ordering is free — `inject.js` is parser-blocking and
  * the config is `defer`, so the loader always wins. `next/script` gives no such
@@ -16,23 +23,11 @@ import Script from "next/script";
  * `onLoad` instead: it cannot run before `window.botpress` exists.
  *
  * The loader is ~1.7 MB, so it loads `afterInteractive` rather than blocking
- * first paint, which is also why this is not inlined into `<head>`.
+ * first paint. To keep that from becoming a visible wait, both scripts are
+ * preloaded — `next/script` hints the loader, and the `preload` call below
+ * starts the config fetch in parallel — while the root layout warms the
+ * connections. Nothing blocks paint; the downloads overlap it.
  */
-
-const INJECT_SRC = "https://cdn.botpress.cloud/webchat/v5.0/inject.js";
-const CONFIG_SRC =
-  "https://files.bpcontent.cloud/2026/09/17/05/20260917053059-CGPRCGR8.js";
-
-/**
- * The name the widget presents the assistant under.
- *
- * The generated Botpress config carries no `botName`, so the header would fall
- * back to the generic default. It is set from here instead, through the public
- * API: `window.botpress.config()` deep-merges into the live configuration, so
- * every other value in the remote config — avatar, welcome copy, feature flags —
- * is left untouched.
- */
-const BOT_NAME = "Vegapunk";
 
 /** The slice of the `window.botpress` API this component uses. */
 interface BotpressApi {
@@ -41,10 +36,19 @@ interface BotpressApi {
 }
 
 export default function BotpressChat() {
+  /*
+   * Start fetching the config now. It cannot run until the loader has defined
+   * `window.botpress`, so left to itself its request would only begin on the
+   * loader's `onLoad` — a full round-trip after the widget has booted. React's
+   * `preload` emits a single deduplicated `<link>` (the same mechanism
+   * `next/script` uses for the loader), so the file is fetched once, early.
+   */
+  preload(BOTPRESS_CONFIG_SRC, { as: "script" });
+
   return (
     <Script
       id="botpress-inject"
-      src={INJECT_SRC}
+      src={BOTPRESS_INJECT_SRC}
       strategy="afterInteractive"
       onLoad={() => {
         // Idempotent: a remount or a second `onLoad` must not initialise twice.
@@ -60,13 +64,13 @@ export default function BotpressChat() {
          */
         if (botpress) {
           botpress.on("webchat:initialized", () => {
-            botpress.config({ configuration: { botName: BOT_NAME } });
+            botpress.config({ configuration: { botName: BOTPRESS_BOT_NAME } });
           });
         }
 
         const config = document.createElement("script");
         config.id = "botpress-config";
-        config.src = CONFIG_SRC;
+        config.src = BOTPRESS_CONFIG_SRC;
         document.body.appendChild(config);
       }}
     />

@@ -5,6 +5,7 @@ import "react-easy-crop/react-easy-crop.css";
 import "./globals.css";
 
 import { personalInfo, seo, site } from "@/data";
+import { BOTPRESS_ORIGINS } from "@/lib/botpress";
 import { bootScript } from "@/lib/theme";
 
 /**
@@ -166,6 +167,17 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           dangerouslySetInnerHTML={{ __html: bootScript() }}
         />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+
+        {/*
+          Preconnect to the Botpress origins so the widget's DNS/TLS setup is
+          already done by the time its scripts are fetched. The two scripts are
+          preloaded separately (`next/script` hints the loader, `BotpressChat`
+          hints the config), so only the handshakes need warming here. A hint
+          never blocks paint — it only starts a connection.
+        */}
+        {BOTPRESS_ORIGINS.map((origin) => (
+          <link key={origin} rel="preconnect" href={origin} />
+        ))}
       </head>
 
       <body className={`${sans.className} font-sans`}>
